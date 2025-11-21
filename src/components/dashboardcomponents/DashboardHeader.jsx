@@ -8,93 +8,101 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bell, Search, LogOut, User, Settings } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Search, ChevronDown, Coins } from "lucide-react";
+import { Link } from "react-router-dom";
 import { MobileSidebar } from "./DashboardSidebar";
 
 export default function DashboardHeader() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    navigate("/signin");
-  };
-
   return (
-    <header className="bg-[#FFFFFF] text-white px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+    <header className="bg-[#1a2332] text-white px-4 sm:px-6 lg:px-8 py-3 border-b border-gray-700">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 sm:gap-4">
+        {/* Left Section - Logo */}
+        <div className="flex items-center gap-3">
           {/* Mobile Sidebar Trigger */}
           <div className="lg:hidden">
             <MobileSidebar />
           </div>
 
-          <div>
-            <h1 className="text-lg sm:text-xl font-semibold">
-              <span className="hidden sm:inline font-bold text-2xl sm:text-3xl">
-                Welcome to Photo Album Pro!!!
-              </span>
-              <span className="sm:hidden font-bold text-xl">Photo Album Pro</span>
-            </h1>
-          
-          </div>
+          {/* Logo */}
+          <Link to="/dashboard" className="flex items-center gap-2">
+            <div className="bg-yellow-500 rounded-full p-1.5">
+              <Coins className="h-5 w-5 text-white" />
+            </div>
+            <span className="text-lg font-bold hidden sm:inline">NASIIB</span>
+          </Link>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-4">
-          {/* Notifications */}
-          <Link to={"/dashboard/notifications"}>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-white bg-white/10 hover:bg-white/20 rounded-full relative h-8 w-8 sm:h-10 sm:w-10 transition-colors"
-            >
-              <Bell className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                3
-              </span>
-            </Button>
-          </Link>
+        {/* Right Section */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          {/* Balance Display */}
+          <div className="flex items-center gap-2 bg-[#2a3645] rounded-full px-3 py-1.5">
+            <Coins className="h-4 w-4 text-yellow-500" />
+            <span className="text-sm font-semibold">$12,020</span>
+          </div>
+
+          {/* Deposit Button */}
+          <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-4 py-1.5 h-8 text-sm rounded-md">
+            Deposit
+          </Button>
+
+          {/* Search Icon */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-gray-300 hover:text-white hover:bg-[#2a3645] h-9 w-9 rounded-md"
+          >
+            <Search className="h-4 w-4" />
+          </Button>
 
           {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative h-8 w-8 sm:h-10 sm:w-10 rounded-full hover:bg-white/10"
+                className="flex items-center gap-2 hover:bg-[#2a3645] px-2 py-1.5 h-auto rounded-md"
               >
-                <Avatar className="h-8 w-8 sm:h-10 sm:w-10">
+                <Avatar className="h-7 w-7">
                   <AvatarImage
-                    src="/placeholder.svg?height=40&width=40"
+                    src="/placeholder.svg?height=32&width=32"
                     alt="User"
                   />
-                  <AvatarFallback className="bg-white text-[#017783] text-xs sm:text-sm font-semibold">
-                    DA
+                  <AvatarFallback className="bg-teal-600 text-white text-xs font-semibold">
+                    SC
                   </AvatarFallback>
                 </Avatar>
+                <span className="text-sm font-medium hidden sm:inline">
+                  Shyami Chauhan
+                </span>
+                <ChevronDown className="h-4 w-4 text-gray-400" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-48 sm:w-56" align="end" forceMount>
+            <DropdownMenuContent
+              className="w-56 bg-[#1a2332] border-gray-700 text-white"
+              align="end"
+              forceMount
+            >
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    Dance Admin
+                    Shyami Chauhan
                   </p>
-                  <p className="text-xs leading-none text-muted-foreground">
-                    admin@danceattix.com
+                  <p className="text-xs leading-none text-gray-400">
+                    shyami@example.com
                   </p>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
+              <DropdownMenuSeparator className="bg-gray-700" />
+              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer">
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
+              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer">
                 <span>Settings</span>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
-                <LogOut className="mr-2 h-4 w-4" />
+              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer">
+                <span>Wallet</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator className="bg-gray-700" />
+              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer text-red-400">
                 <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

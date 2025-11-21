@@ -10,17 +10,13 @@ import OTPVerification from "../pages/auth/OTPVerification";
 import ResetPassword from "../pages/auth/ResetPassword";
 
 // Dashboard Pages
-import DashboardOverview from "../pages/dashboardpages/DashboardOverview/DashboardOverview";
-import Profile from "../pages/dashboardpages/personalinformation/Profile";
-import EditProfile from "../pages/dashboardpages/personalinformation/Editprofile";
-import TermsAndConditions from "../pages/dashboardpages/terms/TermsAndConditions";
-import EditTermsAndConditions from "../pages/dashboardpages/terms/EditTermsAndConditions";
-import PrivacyPolicy from "../pages/dashboardpages/privacypolicy/PrivacyPolicy";
-import EditPrivacyPolicy from "../pages/dashboardpages/privacypolicy/EditPrivacyPolicy";
-import AboutUs from "../pages/dashboardpages/about/AboutUs";
-import EditAbout from "../pages/dashboardpages/about/EditAbout";
-import AllNotifications from "../pages/dashboardpages/notification/AllNotifications";
-import AllUsers from "../pages/dashboardpages/user/AllUsers";
+import Home from "../pages/dashboardpages/home/Home";
+import Games from "../pages/dashboardpages/games/Games";
+import SpinWheel from "../pages/dashboardpages/games/spin-wheel/SpinWheel";
+import ScratchCard from "../pages/dashboardpages/games/scratch-card/ScratchCard";
+import Wallet from "../pages/dashboardpages/wallet/Wallet";
+import History from "../pages/dashboardpages/history/History";
+import Language from "../pages/dashboardpages/language/Language";
 
 const routes = createBrowserRouter([
   {
@@ -47,19 +43,13 @@ const routes = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout />,
     children: [
-      { index: true, element: <DashboardOverview /> },
-      { path: "notificatons", element: <AllNotifications /> },
-      { path: "users", element: <AllUsers /> },
-
-      // Settings
-      { path: "settings/profile", element: <Profile /> },
-      { path: "settings/editpersonal", element: <EditProfile /> },
-      { path: "settings/terms", element: <TermsAndConditions /> },
-      { path: "settings/editterms", element: <EditTermsAndConditions /> },
-      { path: "settings/privacy", element: <PrivacyPolicy /> },
-      { path: "settings/editprivacy", element: <EditPrivacyPolicy /> },
-      { path: "settings/about", element: <AboutUs /> },
-      { path: "settings/editabout", element: <EditAbout /> },
+      { index: true, element: <Home /> },
+      { path: "games", element: <Games /> },
+      { path: "games/spin-wheel", element: <SpinWheel /> },
+      { path: "games/scratch-card", element: <ScratchCard /> },
+      { path: "wallet", element: <Wallet /> },
+      { path: "history", element: <History /> },
+      { path: "language", element: <Language /> },
     ],
   },
 ]);
