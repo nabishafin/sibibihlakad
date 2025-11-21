@@ -1,10 +1,10 @@
-import GameHistoryGame from "@/components/dashboardcomponents/Games.jsx/GameHistoryGame";
-import { HowToPlayGames } from "@/components/dashboardcomponents/Games.jsx/HowToPlayGames";
-import SpinWheel from "@/components/dashboardcomponents/Games.jsx/SpinWheel";
-import { StakeSelector } from "@/components/dashboardcomponents/Games.jsx/StakeSelector";
+import GameHistoryGame from "@/components/dashboardcomponents/SpinWheel/GameHistoryGame";
+import { HowToPlayGames } from "@/components/dashboardcomponents/SpinWheel/HowToPlayGames";
+import SpinWheelComponent from "@/components/dashboardcomponents/SpinWheel/SpinWheel";
+import { StakeSelector } from "@/components/dashboardcomponents/SpinWheel/StakeSelector";
 import React, { useState } from "react";
 
-export function SpinGames() {
+function SpinWheel() {
   const [balance, setBalance] = useState("0.00");
   const [selectedStake, setSelectedStake] = useState("0.001");
   const [isSpinning, setIsSpinning] = useState(false);
@@ -21,11 +21,11 @@ export function SpinGames() {
     setSelectedStake((currentStake * 2).toFixed(4));
   };
   return (
-    <div className="flex flex-col min-h-screen bg-[#0e1624] text-white">
+    <div className="flex flex-col  bg-[#0E1624] text-white rounded-2xl">
       <div className="flex flex-1 overflow-hidden">
         <main className="flex-1 flex flex-col md:flex-row p-4 overflow-auto">
           <div className="flex-1  mx-auto">
-            <div className="bg-[#1a1f3a]/30 rounded-lg p-6 mb-6">
+            <div className=" rounded-lg p-6 mb-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <h2 className="text-lg text-gray-400">Your Balance</h2>
@@ -48,7 +48,7 @@ export function SpinGames() {
                 </button>
               </div>
 
-              <SpinWheel isSpinning={isSpinning} />
+              <SpinWheelComponent isSpinning={isSpinning} />
 
               <StakeSelector
                 selectedStake={selectedStake}
@@ -69,4 +69,4 @@ export function SpinGames() {
     </div>
   );
 }
-export default SpinGames;
+export default SpinWheel;

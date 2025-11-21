@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useState, useEffect } from "react";
-import btcVaultImg from "../../../public/Lockimg.png";
+import btcVaultImg from "../../assets/Lockimg.png";
 
 export function BalanceCard() {
   const [balance, setBalance] = useState(0);

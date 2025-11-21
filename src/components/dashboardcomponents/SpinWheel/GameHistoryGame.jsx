@@ -40,13 +40,17 @@ export const GameHistoryGame = () => {
   ];
 
   const getIcon = (type) => {
+    const baseClasses =
+      "w-6 h-6 rounded-full bg-[#1a1f3a] flex items-center justify-center";
+    const iconClasses = "h-3 w-3";
+
     switch (type) {
       case "deposit":
         return (
-          <div className="w-8 h-8 rounded-full bg-[#1a1f3a] flex items-center justify-center">
+          <div className={baseClasses}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
+              className={iconClasses}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -60,10 +64,10 @@ export const GameHistoryGame = () => {
         );
       case "scratch":
         return (
-          <div className="w-8 h-8 rounded-full bg-[#1a1f3a] flex items-center justify-center">
+          <div className={baseClasses}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
+              className={iconClasses}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -77,10 +81,10 @@ export const GameHistoryGame = () => {
         );
       case "spin":
         return (
-          <div className="w-8 h-8 rounded-full bg-[#1a1f3a] flex items-center justify-center">
+          <div className={baseClasses}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
+              className={iconClasses}
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -98,17 +102,17 @@ export const GameHistoryGame = () => {
   };
 
   return (
-    <div className="bg-[#1a1f3a]/30 rounded-lg p-6">
-      <h3 className="text-xl font-bold mb-4">Game History</h3>
-      <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
+    <div className="bg-[#1a1f3a]/30 rounded-lg p-4 text-sm">
+      <h3 className="text-lg font-bold mb-3">Game History</h3>
+      <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
         {historyItems.map((item, index) => (
           <div
             key={index}
-            className="bg-[#1a1f3a] rounded-lg p-4 flex items-center"
+            className="bg-[#1a1f3a] rounded-lg p-3 flex items-center"
           >
             {getIcon(item.type)}
-            <div className="ml-3 flex-1">
-              <div className="flex justify-between">
+            <div className="ml-2 flex-1">
+              <div className="flex justify-between text-xs">
                 <span className="font-medium">{item.title}</span>
                 <span
                   className={
@@ -118,7 +122,7 @@ export const GameHistoryGame = () => {
                   {item.amount}
                 </span>
               </div>
-              <div className="text-sm text-gray-400">{item.time}</div>
+              <div className="text-[10px] text-gray-400">{item.time}</div>
             </div>
           </div>
         ))}
@@ -126,4 +130,5 @@ export const GameHistoryGame = () => {
     </div>
   );
 };
+
 export default GameHistoryGame;

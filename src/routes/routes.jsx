@@ -11,13 +11,12 @@ import ResetPassword from "../pages/auth/ResetPassword";
 
 // Dashboard Pages
 import Home from "../pages/dashboardpages/home/Home";
-import Games, { SpinGames } from "../pages/dashboardpages/games/SpinGames";
 
 import Wallet from "../pages/dashboardpages/wallet/Wallet";
 import History from "../pages/dashboardpages/history/History";
 import Language from "../pages/dashboardpages/language/Language";
-import { ScratchCard } from "@/pages/dashboardpages/games/scratch-card/ScratchCard";
-import SpinWheel from "@/components/dashboardcomponents/Games.jsx/SpinWheel";
+import SpinWheel from "@/pages/dashboardpages/games/spin-wheel/SpinWheel";
+import ScratchCard from "@/pages/dashboardpages/games/scratch-card/ScratchCard";
 
 const routes = createBrowserRouter([
   {
@@ -45,8 +44,8 @@ const routes = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "games", element: <Games /> },
-      { path: "games/spin-wheel", element: <SpinGames /> },
+
+      { path: "games/spin-wheel", element: <SpinWheel /> },
       { path: "games/scratch-card", element: <ScratchCard /> },
       { path: "wallet", element: <Wallet /> },
       { path: "history", element: <History /> },
