@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom"; // Import Outlet
 
 export default function DashboardLayout() {
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen ">
       {/* Desktop Sidebar - শুধুমাত্র desktop এ দেখাবে */}
       <DashboardSidebar />
 
@@ -15,7 +15,7 @@ export default function DashboardLayout() {
         <DashboardHeader />
 
         {/* Page Content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4 sm:p-6 ">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-800  p-4 sm:p-6 ">
           <Outlet /> {/* Replace {children} with Outlet */}
         </main>
       </div>

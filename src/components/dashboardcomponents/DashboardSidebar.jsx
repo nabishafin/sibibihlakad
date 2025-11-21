@@ -55,19 +55,6 @@ const sidebarItems = [
 ];
 
 // Logo Section
-function LogoSection({ name = "Dance Attix", title = "Admin Panel" }) {
-  return (
-    <Link to="/dashboard">
-      <div className="flex items-center p-4 sm:p-6 flex-col justify-center border-b border-gray-700">
-        <img src="/logo.svg" alt="logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-        <h1 className="text-xl sm:text-2xl font-bold mt-2 text-white">
-          {name}
-        </h1>
-        <p className="text-xs sm:text-sm mt-1 text-gray-400">{title}</p>
-      </div>
-    </Link>
-  );
-}
 
 // Live Stats Component
 function LiveStats() {
@@ -194,8 +181,10 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
 // Desktop Sidebar
 function DesktopSidebar() {
   return (
-    <div className="hidden lg:flex h-full w-64 flex-col bg-[#1a2332] border-r border-gray-700">
-      <LogoSection />
+    <div className="hidden lg:flex h-full w-64 flex-col bg-[#0E1624] border-r border-gray-700">
+      <div className="py-10">
+        <button>back button</button>
+      </div>
       <SidebarNav />
       <LiveStats />
     </div>
@@ -220,19 +209,7 @@ function MobileSidebar() {
       <SheetContent side="left" className="w-64 p-0 sm:max-w-sm">
         <div className="flex h-full flex-col bg-[#1a2332]">
           {/* Mobile Logo */}
-          <div className="flex items-center p-4 border-b border-gray-700">
-            <div className="flex items-center gap-2">
-              <div className="bg-teal-600 p-2 rounded-lg">
-                <Music className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold text-white">
-                  Dance Attix
-                </h2>
-                <p className="text-sm text-gray-400">Admin Panel</p>
-              </div>
-            </div>
-          </div>
+
           <SidebarNav onLinkClick={() => setOpen(false)} isMobile={true} />
           <LiveStats />
         </div>

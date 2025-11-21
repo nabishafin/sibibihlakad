@@ -14,7 +14,7 @@ import { MobileSidebar } from "./DashboardSidebar";
 
 export default function DashboardHeader() {
   return (
-    <header className="bg-[#1a2332] text-white px-4 sm:px-6 lg:px-8 py-3 border-b border-gray-700">
+    <header className="bg-[#0E1624] text-white px-4 sm:px-6 lg:px-8 py-5 ">
       <div className="flex items-center justify-between">
         {/* Left Section - Logo */}
         <div className="flex items-center gap-3">
