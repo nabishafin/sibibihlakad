@@ -15,8 +15,9 @@ import Home from "../pages/dashboardpages/home/Home";
 import Wallet from "../pages/dashboardpages/wallet/Wallet";
 import History from "../pages/dashboardpages/history/History";
 import Language from "../pages/dashboardpages/language/Language";
-import SpinWheel from "@/pages/dashboardpages/games/spin-wheel/SpinWheel";
-import ScratchCard from "@/pages/dashboardpages/games/scratch-card/ScratchCard";
+
+import { ScratchCard } from "@/pages/dashboardpages/games/scratch-card/ScratchCard";
+import SpinWheelPage from "@/pages/dashboardpages/games/spin-wheel/SpinWheelPage";
 
 const routes = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ const routes = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
 
-      { path: "games/spin-wheel", element: <SpinWheel /> },
+      { path: "games/spin-wheel", element: <SpinWheelPage /> },
       { path: "games/scratch-card", element: <ScratchCard /> },
       { path: "wallet", element: <Wallet /> },
       { path: "history", element: <History /> },

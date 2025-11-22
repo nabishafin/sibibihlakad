@@ -2,7 +2,7 @@ import React from "react";
 
 export const HowToPlayGames = () => {
   return (
-    <div className="bg-[#1a1f3a]/30 rounded-lg p-4 text-sm">
+    <div className=" rounded-lg p-4 text-sm">
       <h3 className="text-lg font-bold mb-3">How to Play</h3>
       <ol className="space-y-2">
         <li className="flex items-start">
@@ -37,7 +37,7 @@ export const HowToPlayGames = () => {
         </li>
       </ol>
 
-      <div className="mt-4 bg-[#1a1f3a] p-3 rounded-md text-xs">
+      <div className="mt-4 bg-[#1a2536] p-3 rounded-md text-xs">
         <div className="flex justify-between mb-1">
           <span>RTP:</span>
           <span>97.5%</span>

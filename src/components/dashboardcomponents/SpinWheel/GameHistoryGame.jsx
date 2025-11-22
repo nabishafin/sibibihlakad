@@ -41,7 +41,7 @@ export const GameHistoryGame = () => {
 
   const getIcon = (type) => {
     const baseClasses =
-      "w-6 h-6 rounded-full bg-[#1a1f3a] flex items-center justify-center";
+      "w-6 h-6 rounded-full bg-[#1a2536] flex items-center justify-center";
     const iconClasses = "h-3 w-3";
 
     switch (type) {
@@ -102,13 +102,13 @@ export const GameHistoryGame = () => {
   };
 
   return (
-    <div className="bg-[#1a1f3a]/30 rounded-lg p-4 text-sm">
+    <div className=" rounded-lg p-4 text-sm">
       <h3 className="text-lg font-bold mb-3">Game History</h3>
       <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
         {historyItems.map((item, index) => (
           <div
             key={index}
-            className="bg-[#1a1f3a] rounded-lg p-3 flex items-center"
+            className="bg-[#1a2536] rounded-lg p-3 flex items-center"
           >
             {getIcon(item.type)}
             <div className="ml-2 flex-1">

@@ -4,7 +4,7 @@ import SpinWheelComponent from "@/components/dashboardcomponents/SpinWheel/SpinW
 import { StakeSelector } from "@/components/dashboardcomponents/SpinWheel/StakeSelector";
 import React, { useState } from "react";
 
-function SpinWheel() {
+function SpinWheelPage() {
   const [balance, setBalance] = useState("0.00");
   const [selectedStake, setSelectedStake] = useState("0.001");
   const [isSpinning, setIsSpinning] = useState(false);
@@ -21,7 +21,7 @@ function SpinWheel() {
     setSelectedStake((currentStake * 2).toFixed(4));
   };
   return (
-    <div className="flex flex-col  bg-[#0E1624] text-white rounded-2xl">
+    <div className="flex flex-col  bg-[#0E1624] text-white rounded-2xl ">
       <div className="flex flex-1 overflow-hidden">
         <main className="flex-1 flex flex-col md:flex-row p-4 overflow-auto">
           <div className="flex-1  mx-auto">
@@ -60,7 +60,7 @@ function SpinWheel() {
             </div>
           </div>
 
-          <div className="md:w-80 md:ml-4 space-y-6">
+          <div className="md:w-80 border-l-[1px] border-gray-800 md:ml-4 space-y-6">
             <HowToPlayGames />
             <GameHistoryGame />
           </div>
@@ -69,4 +69,4 @@ function SpinWheel() {
     </div>
   );
 }
-export default SpinWheel;
+export default SpinWheelPage;
