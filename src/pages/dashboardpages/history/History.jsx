@@ -5,7 +5,7 @@ import { StatsCard } from "@/components/dashboardcomponents/History/StatsCard";
 
 function History() {
   return (
-    <div className="flex min-h-screen bg-[#0e1624]">
+    <div className="flex  bg-[#0e1624] rounded-2xl">
       <main className="flex-1 p-8">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

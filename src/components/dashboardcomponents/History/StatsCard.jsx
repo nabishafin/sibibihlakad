@@ -3,7 +3,7 @@ import { TrendingUpIcon, TrendingDownIcon } from "lucide-react";
 
 export function StatsCard({ title, value, trend, valueColor = "text-white" }) {
   return (
-    <div className="bg-[#141b34] rounded-xl p-6 border border-gray-800">
+    <div className="bg-[#0B121D] rounded-xl p-6 border border-gray-800">
       <div className="flex items-start justify-between mb-3">
         <h3 className="text-gray-400 text-sm font-medium">{title}</h3>
         {trend && (

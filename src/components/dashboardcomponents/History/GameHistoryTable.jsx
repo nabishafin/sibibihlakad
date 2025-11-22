@@ -78,7 +78,7 @@ export function GameHistoryTable() {
   });
 
   return (
-    <div className="bg-[#1a1f3a] rounded-xl border border-gray-800 overflow-hidden">
+    <div className="bg-[#0B121D] rounded-xl border border-gray-800 overflow-hidden">
       {/* Header with filters */}
       <div className="flex items-center justify-between p-6 border-b border-gray-800">
         <h2 className="text-white text-xl font-semibold">All Games</h2>
