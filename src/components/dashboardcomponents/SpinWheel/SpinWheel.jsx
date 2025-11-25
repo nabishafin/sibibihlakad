@@ -5,6 +5,7 @@ export const SpinWheel = ({ isSpinning }) => {
   const rotationRef = useRef(0);
   const animationRef = useRef(null);
   const [isAnimating, setIsAnimating] = useState(false);
+  const isAnimatingRef = useRef(false);
   const targetRotationRef = useRef(0);
   const startRotationRef = useRef(0);
   const startTimeRef = useRef(0);
@@ -20,7 +21,7 @@ export const SpinWheel = ({ isSpinning }) => {
     { text: "1x", color: "#4db6ac" },
   ];
 
-  // Easing function for smooth deceleration
+  // Easing function for smooth deceleration (cubic-bezier equivalent)
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
   const drawWheel = (rotation) => {
@@ -74,39 +75,37 @@ export const SpinWheel = ({ isSpinning }) => {
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    // Draw pointer
+    // Draw center pointer (Dark Needle)
     ctx.save();
     ctx.translate(centerX, centerY);
-    ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
-    ctx.shadowBlur = 8;
-    ctx.shadowOffsetY = 2;
+    ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = 4;
 
+    // Pointer Shape (Needle + Circle Base)
     ctx.beginPath();
-    ctx.moveTo(0, -radius - 5);
-    ctx.lineTo(-20, -radius + 25);
-    ctx.lineTo(20, -radius + 25);
+    // Start at the tip
+    ctx.moveTo(0, -80);
+    // Curve down to the right side of the base
+    ctx.quadraticCurveTo(5, -40, 12, -5);
+    // Arc around the bottom
+    ctx.arc(0, 0, 18, 0, Math.PI * 2);
+    // Curve back up to the tip from the left side
+    ctx.moveTo(-12, -5);
+    ctx.quadraticCurveTo(-5, -40, 0, -80);
     ctx.closePath();
-    ctx.fillStyle = "#ffae2c";
-    ctx.fill();
-    ctx.strokeStyle = "#d6b25e";
-    ctx.lineWidth = 2;
-    ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(0, -radius);
-    ctx.lineTo(-12, -radius + 18);
-    ctx.lineTo(12, -radius + 18);
-    ctx.closePath();
-    ctx.fillStyle = "#ffc94d";
+    ctx.fillStyle = "#0e1624";
     ctx.fill();
+
     ctx.restore();
   };
 
   const animate = () => {
-    if (isAnimating) {
+    if (isAnimatingRef.current) {
       const currentTime = Date.now();
       const elapsed = currentTime - startTimeRef.current;
-      const duration = 5000;
+      const duration = 10000; // 10 seconds duration
 
       if (elapsed < duration) {
         const progress = elapsed / duration;
@@ -118,6 +117,7 @@ export const SpinWheel = ({ isSpinning }) => {
       } else {
         rotationRef.current = targetRotationRef.current;
         setIsAnimating(false);
+        isAnimatingRef.current = false;
       }
     }
 
@@ -126,12 +126,14 @@ export const SpinWheel = ({ isSpinning }) => {
   };
 
   useEffect(() => {
-    if (isSpinning && !isAnimating) {
+    if (isSpinning && !isAnimatingRef.current) {
       setIsAnimating(true);
+      isAnimatingRef.current = true;
       startTimeRef.current = Date.now();
       startRotationRef.current = rotationRef.current;
 
-      const fullSpins = 5 + Math.random() * 3;
+      // Start fast (more rotations) and slow down
+      const fullSpins = 20 + Math.random() * 5; // Increased spins for higher initial speed
       const randomSegment = Math.random() * 2 * Math.PI;
       targetRotationRef.current =
         rotationRef.current + fullSpins * 2 * Math.PI + randomSegment;
@@ -159,9 +161,8 @@ export const SpinWheel = ({ isSpinning }) => {
           ref={canvasRef}
           width={400}
           height={400}
-          className={`max-w-full h-auto transition-all duration-300 ${
-            isAnimating ? "filter-none" : ""
-          }`}
+          className={`max-w-full h-auto transition-all duration-300 ${isAnimating ? "filter-none" : ""
+            }`}
         />
       </div>
     </div>

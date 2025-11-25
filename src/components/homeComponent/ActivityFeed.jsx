@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 export const ActivityFeed = () => {
   const activities = [
     {
@@ -52,11 +54,14 @@ export const ActivityFeed = () => {
   ];
   return (
     <div>
-      <div className="flex justify-between items-center mb-4 mt-10">
+      <div className="flex justify-between items-center mb-4 mt-5">
         <h2 className="text-white text-lg font-medium">Live Activity</h2>
-        <a href="#" className="text-[#ffae2c] text-sm hover:underline">
+        <Link
+          to="/dashboard/activity"
+          className="text-[#ffae2c] text-sm hover:underline"
+        >
           View all
-        </a>
+        </Link>
       </div>
       <div className="space-y-3">
         {activities.map((activity) => (
@@ -74,9 +79,8 @@ export const ActivityFeed = () => {
               </div>
             </div>
             <div
-              className={`font-medium ${
-                activity.isPositive ? "text-[#16a34a]" : "text-[#f34f4f]"
-              }`}
+              className={`font-medium ${activity.isPositive ? "text-[#16a34a]" : "text-[#f34f4f]"
+                }`}
             >
               {activity.amount}
             </div>

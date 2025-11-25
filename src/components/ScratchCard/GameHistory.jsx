@@ -7,89 +7,94 @@ export function GameHistory() {
       title: "Testnet BTC Deposit",
       time: "02:53 AM",
       amount: "+0.0025 BTC",
-      positive: true,
+      isPositive: true,
     },
     {
       type: "scratch",
       title: "Scratch Card - Won 10x",
       time: "02:52 AM",
       amount: "+0.0025 BTC",
-      positive: true,
+      isPositive: true,
     },
     {
       type: "scratch",
       title: "Scratch Card - Stake",
       time: "02:52 AM",
       amount: "-0.0025 BTC",
-      positive: false,
+      isPositive: false,
     },
     {
       type: "spin",
       title: "Spin Wheel - Won 3x",
       time: "02:52 AM",
       amount: "-0.0025 BTC",
-      positive: false,
+      isPositive: false,
     },
     {
       type: "spin",
       title: "Spin Wheel - Won 3x",
       time: "02:52 AM",
       amount: "-0.0025 BTC",
-      positive: false,
+      isPositive: false,
     },
   ];
 
-  const renderIcon = (type) => {
+  const getIcon = (type) => {
+    const baseClasses =
+      "w-6 h-6 rounded-full bg-[#1a2536] flex items-center justify-center";
+    const iconClasses = "h-3 w-3";
+
     switch (type) {
       case "deposit":
         return (
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M8 12h8" />
-            <path d="M12 8v8" />
-          </svg>
+          <div className={baseClasses}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={iconClasses}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
         );
       case "scratch":
         return (
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect width="18" height="18" x="3" y="3" rx="2" />
-            <path d="M7 7h.01M12 7h.01M17 7h.01M7 12h.01M12 12h.01M17 12h.01M7 17h.01M12 17h.01M17 17h.01" />
-          </svg>
+          <div className={baseClasses}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={iconClasses}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
         );
       case "spin":
         return (
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-            <path d="M2 12h20" />
-          </svg>
+          <div className={baseClasses}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={iconClasses}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </div>
         );
       default:
         return null;
@@ -97,30 +102,27 @@ export function GameHistory() {
   };
 
   return (
-    <div className="flex-1 overflow-hidden text-sm">
-      <h2 className="text-lg font-bold mb-2">Game History</h2>
-      <div
-        className="space-y-1 overflow-y-auto pr-1"
-        style={{ maxHeight: "calc(100vh - 400px)" }}
-      >
+    <div className="rounded-lg p-4 text-sm bg-[#0B121D]">
+      <h3 className="text-lg font-bold mb-3">Game History</h3>
+      <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
         {historyItems.map((item, index) => (
           <div
             key={index}
-            className="bg-[#1a2536] rounded-md p-2 flex items-center gap-2"
+            className="bg-[#1a2536] rounded-lg p-3 flex items-center"
           >
-            <div className="h-8 w-8 rounded-md bg-[#2a3546] flex items-center justify-center flex-shrink-0">
-              {renderIcon(item.type)}
-            </div>
-            <div className="flex-grow">
-              <div className="font-medium text-sm">{item.title}</div>
-              <div className="text-xs text-gray-400">{item.time}</div>
-            </div>
-            <div
-              className={`font-medium text-sm ${
-                item.positive ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {item.amount}
+            {getIcon(item.type)}
+            <div className="ml-2 flex-1">
+              <div className="flex justify-between text-xs">
+                <span className="font-medium">{item.title}</span>
+                <span
+                  className={
+                    item.isPositive ? "text-green-400" : "text-red-400"
+                  }
+                >
+                  {item.amount}
+                </span>
+              </div>
+              <div className="text-[10px] text-gray-400">{item.time}</div>
             </div>
           </div>
         ))}

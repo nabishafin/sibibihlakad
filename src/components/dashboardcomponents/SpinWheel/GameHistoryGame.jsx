@@ -102,7 +102,7 @@ export const GameHistoryGame = () => {
   };
 
   return (
-    <div className=" rounded-lg p-4 text-sm">
+    <div className="rounded-lg p-4 text-sm bg-[#0B121D]">
       <h3 className="text-lg font-bold mb-3">Game History</h3>
       <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2">
         {historyItems.map((item, index) => (

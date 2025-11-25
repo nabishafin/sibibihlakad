@@ -55,123 +55,119 @@ const Wallet = () => {
   ];
 
   return (
-    <div className="flex-1  bg-gray-800">
-      <div className="mx-auto">
-        {/* ================= BALANCE + GAME STATS ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* BALANCE */}
-          <div className="rounded-xl p-6 border bg-[#0E1624] border-[#374151]">
-            <h2 className="text-sm text-gray-400 mb-3">Your Balance</h2>
+    <div className="bg-[#0e1624] rounded-2xl">
+      <div className="p-6 space-y-6">
 
-            <div>
-              <div className="flex items-baseline">
-                <span className="text-4xl font-bold text-white">0.00</span>
-                <span className="ml-2 text-xl font-semibold text-yellow-400">
-                  BTC
-                </span>
-              </div>
-              <span className="text-sm text-gray-500 mt-1">≈ $0.00</span>
+        {/* ================= BALANCE + GAME STATS ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          {/* BALANCE CARD */}
+          <div className="rounded-xl p-6 bg-[#0B121D] border border-gray-800">
+            <p className="text-sm text-gray-400 mb-2">Your Balance</p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-bold text-white">0.00</span>
+              <span className="text-xl font-semibold text-[#ffae2c]">BTC</span>
             </div>
+            <p className="text-sm text-gray-500 mt-1">≈ $0.00</p>
           </div>
 
-          {/* GAME STATS */}
-          <div className="rounded-xl p-6 border bg-[#0E1624] border-[#374151] flex justify-around">
+          {/* GAME STATS CARD */}
+          <div className="rounded-xl p-6 bg-[#0B121D] border border-gray-800 flex justify-around items-center">
             <div className="text-center">
-              <span className="text-4xl font-bold text-white block mb-1">
-                50
-              </span>
-              <span className="text-sm text-gray-400">Game Played</span>
+              <p className="text-5xl font-bold text-white mb-1">50</p>
+              <p className="text-sm text-gray-400">Game Played</p>
             </div>
 
-            <div className="w-px bg-[#374151]"></div>
+            <div className="w-px h-16 bg-gray-700"></div>
 
             <div className="text-center">
-              <span className="text-4xl font-bold text-white block mb-1">
-                2
-              </span>
-              <span className="text-sm text-gray-400">Game Available</span>
+              <p className="text-5xl font-bold text-white mb-1">2</p>
+              <p className="text-sm text-gray-400">Game Available</p>
             </div>
           </div>
         </div>
 
-        {/* ================= DEPOSIT ADDRESS ================= */}
-        <div className="rounded-xl p-6 border bg-[#0E1624] border-[#374151] mb-6">
-          <h2 className="text-xl font-semibold mb-1 text-white">
+        {/* ================= DEPOSIT ADDRESS SECTION ================= */}
+        <div className="rounded-xl p-6 bg-[#0B121D] border border-gray-800">
+          <h2 className="text-lg font-semibold mb-1 text-white">
             Your Deposit Address
           </h2>
           <p className="text-sm text-gray-400 mb-6">
             Send Bitcoin Testnet to this address
           </p>
 
-          {/* QR on top — Address below */}
+          {/* QR Code and Address */}
           <div className="flex flex-col items-center gap-6">
-            {/* QR */}
-            <div className="bg-white p-3 rounded-lg">
+
+            {/* QR Code */}
+            <div className="bg-white p-4 rounded-lg">
               <img
                 src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${address}`}
                 alt="QR Code"
-                className="w-36 h-36"
+                className="w-32 h-32"
               />
             </div>
 
-            {/* ADDRESS + COPY */}
+            {/* Address Input with Copy Button */}
             <div className="w-full">
-              <div className="rounded-lg p-4 flex items-center justify-between border bg-[#374151] border-[#374151]">
-                <span className="text-sm font-mono break-all text-gray-300 mr-3">
+              <div className="rounded-lg p-4 flex items-center justify-between bg-[#1a2536] border border-gray-700">
+                <span className="text-sm font-mono text-gray-300 mr-3 truncate">
                   {address}
                 </span>
 
                 <button
                   onClick={handleCopy}
-                  className={`p-2 rounded-lg transition ${
-                    copied
+                  className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 whitespace-nowrap ${copied
                       ? "bg-green-500 text-white"
-                      : "bg-yellow-400 text-black"
-                  }`}
+                      : "bg-[#ffae2c] text-[#0e1624] hover:bg-[#d6b25e]"
+                    }`}
                 >
-                  {copied ? <CheckCircle2 size={20} /> : <Copy size={20} />}
+                  {copied ? (
+                    <>
+                      <CheckCircle2 size={16} />
+                      <span>Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={16} />
+                      <span>Copy</span>
+                    </>
+                  )}
                 </button>
               </div>
-
-              {copied && (
-                <p className="text-sm mt-2 flex items-center text-green-500">
-                  <CheckCircle2 size={14} className="mr-1" /> Address copied!
-                </p>
-              )}
             </div>
           </div>
         </div>
 
         {/* ================= TRANSACTION HISTORY ================= */}
-        <div className="rounded-xl p-6 border bg-[#0B121D] border-[#374151]">
-          <h2 className="text-xl font-semibold mb-6 text-white">
+        <div className="rounded-xl p-6 bg-[#0B121D] border border-gray-800">
+          <h2 className="text-lg font-semibold mb-4 text-white">
             Transaction History
           </h2>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {transactions.map((item) => {
               const Icon = item.icon;
 
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between p-4 rounded-lg border bg-[#0e1624] border-[#0B121D]"
+                  className="flex items-center justify-between p-4 rounded-lg bg-[#1a2536] hover:bg-[#1f2a3d] transition-colors"
                 >
-                  <div className="flex items-center">
-                    <div className="p-3 rounded-lg mr-4 border bg-[#3E4550] border-[#374151]">
-                      <Icon size={20} />
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-[#0e1624]">
+                      <Icon size={20} className="text-gray-400" />
                     </div>
 
                     <div>
-                      <h3 className="font-medium text-white">{item.title}</h3>
-                      <span className="text-sm text-gray-500">{item.time}</span>
+                      <p className="font-medium text-white text-sm">{item.title}</p>
+                      <p className="text-xs text-gray-500">{item.time}</p>
                     </div>
                   </div>
 
                   <span
-                    className={`font-semibold ${
-                      item.isPositive ? "text-green-500" : "text-red-500"
-                    }`}
+                    className={`font-semibold text-sm ${item.isPositive ? "text-green-400" : "text-red-400"
+                      }`}
                   >
                     {item.amount}
                   </span>

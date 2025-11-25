@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import btcVaultImg from "../../assets/Lockimg.png";
+import AnimatedButton from "../ui/AnimatedButton";
 
 export function BalanceCard() {
   const [balance, setBalance] = useState(0);
@@ -19,7 +20,7 @@ export function BalanceCard() {
   }, []);
 
   return (
-    <Card className="w-full  bg-gradient-to-b from-slate-900 to-slate-800 border-slate-700 p-8">
+    <Card className="w-full  bg-gradient-to-b from-slate-900 to-slate-800 border-slate-700 p-9">
       <div className="grid grid-cols-2 gap-8 items-center">
         {/* Left side - Balance Info */}
         <div className="space-y-10">
@@ -42,21 +43,18 @@ export function BalanceCard() {
 
           {/* Action Buttons */}
           <div className="flex gap-3">
-            <Button
-              onClick={() => {
-                setBalance((prev) => prev + 0.5);
-                setUsdValue((prev) => prev + 18000);
-              }}
-              className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg"
-            >
-              Deposit
-            </Button>
-            <Button
-              onClick={() => setIsRotating(!isRotating)}
-              className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg"
-            >
-              Play now
-            </Button>
+            <div className="rounded-full">
+              <AnimatedButton
+                text="Deposit"
+                fillColor1="#FFCE00"
+                fillColor2="#FFB800"
+              />
+            </div>
+            <AnimatedButton
+              text="Play now"
+              fillColor1="#2E7C83"
+              fillColor2="#32EEFF2E"
+            />
           </div>
         </div>
 

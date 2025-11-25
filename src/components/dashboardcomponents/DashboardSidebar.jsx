@@ -1,19 +1,20 @@
 import {
   LayoutDashboard,
   Users2,
-  Settings,
   ScrollText,
   Menu,
   Music,
   Sparkles,
   ChevronRight,
   ChevronDown,
+  ArrowLeftFromLine,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import nasib from "../../assets/Nasib.png";
 
 // Sidebar Items
 const sidebarItems = [
@@ -47,21 +48,14 @@ const sidebarItems = [
     href: "/dashboard/history",
     icon: ScrollText,
   },
-  {
-    title: "English",
-    href: "/dashboard/language",
-    icon: Settings,
-  },
 ];
-
-// Logo Section
 
 // Live Stats Component
 function LiveStats() {
   return (
-    <div className="mt-auto p-4 border-t border-gray-700">
+    <div className="mt-4 p-4 border border-gray-700 rounded-xl bg-[#1F2937]">
       <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="h-4 w-4 text-emerald-400" />
+        <Sparkles className="h-4 w-4 text-[#D6B25E]" />
         <span className="text-sm font-semibold text-white">Live Stats</span>
       </div>
       <div className="space-y-2 text-xs">
@@ -75,7 +69,7 @@ function LiveStats() {
         </div>
         <div className="flex justify-between text-gray-300">
           <span>BTC Price</span>
-          <span className="text-emerald-400 font-semibold">$94,951.58</span>
+          <span className="text-[#D6B25E] font-semibold">$94,951.58</span>
         </div>
       </div>
     </div>
@@ -96,10 +90,15 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
 
   return (
     <nav className="flex-1 p-2 sm:p-4 overflow-y-auto flex flex-col">
-      <ul className="space-y-1 sm:space-y-2 flex-1">
+      <ul className="space-y-4">
         {sidebarItems.map((item) => {
-          const isActive = location.pathname === item.href;
           const hasChildren = !!item.children?.length;
+
+          // ✅ Active logic updated: parent active only if its route or child route is active
+          const isActive =
+            location.pathname === item.href ||
+            item.children?.some((child) => child.href === location.pathname);
+
           const expanded = isExpanded(item.href);
 
           return (
@@ -110,13 +109,13 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
                     variant="ghost"
                     onClick={() => toggleExpanded(item.href)}
                     className={cn(
-                      "w-full justify-start gap-3 h-10 text-sm sm:text-base",
+                      "w-full justify-start gap-3 h-12 text-sm sm:text-base rounded-lg font-medium",
                       isActive || expanded
-                        ? "bg-[#2a3645] text-white"
-                        : "text-gray-300 hover:bg-[#2a3645] hover:text-white"
+                        ? "bg-[#D6B25E] border-b text-black hover:bg-[#D6B25E]"
+                        : "text-gray-300 bg-white/20 hover:bg-white/20 hover:text-white"
                     )}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className="h-5 w-5" />
                     <span className="flex-1 text-left">{item.title}</span>
                     {expanded ? (
                       <ChevronDown className="h-4 w-4" />
@@ -124,6 +123,7 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
                       <ChevronRight className="h-4 w-4" />
                     )}
                   </Button>
+
                   <div
                     className={cn(
                       "transition-all overflow-hidden duration-200",
@@ -139,9 +139,9 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
                               <Button
                                 variant="ghost"
                                 className={cn(
-                                  "w-full justify-start gap-3 h-9 text-sm pl-12",
+                                  "w-full justify-start gap-3 h-10 text-sm pl-12 rounded-md",
                                   isChildActive
-                                    ? "bg-[#374151] text-white"
+                                    ? "bg-[#D6B25E] text-black hover:bg-[#D6B25E]"
                                     : "text-gray-400 hover:bg-[#2a3645] hover:text-gray-200"
                                 )}
                               >
@@ -159,13 +159,13 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
                   <Button
                     variant="ghost"
                     className={cn(
-                      "w-full justify-start gap-3 h-10 text-sm sm:text-base",
+                      "w-full justify-start gap-3 h-12 text-sm sm:text-base rounded-lg font-medium",
                       isActive
-                        ? "bg-[#2a3645] text-white"
-                        : "text-gray-300 hover:bg-[#2a3645] hover:text-white"
+                        ? "bg-[#D6B25E] border-b text-black hover:bg-[#D6B25E]"
+                        : "text-gray-300 bg-white/20 hover:bg-white/20 hover:text-white"
                     )}
                   >
-                    <item.icon className="h-4 w-4" />
+                    <item.icon className="h-5 w-5" />
                     {item.title}
                   </Button>
                 </Link>
@@ -174,6 +174,7 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
           );
         })}
       </ul>
+      <LiveStats />
     </nav>
   );
 }
@@ -182,11 +183,12 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
 function DesktopSidebar() {
   return (
     <div className="hidden lg:flex h-full w-64 flex-col bg-[#0E1624] border-r border-gray-700">
-      <div className="py-10">
-        <button>back button</button>
+      <div className="p-6">
+        <Link to="/dashboard" className="flex items-center gap-2">
+          <img src={nasib} className="w-44" alt="" />
+        </Link>
       </div>
       <SidebarNav />
-      <LiveStats />
     </div>
   );
 }
@@ -206,22 +208,18 @@ function MobileSidebar() {
           <Menu className="h-4 w-4" />
         </Button>
       </SheetTrigger>
+
       <SheetContent side="left" className="w-64 p-0 sm:max-w-sm">
         <div className="flex h-full flex-col bg-[#1a2332]">
-          {/* Mobile Logo */}
-
           <SidebarNav onLinkClick={() => setOpen(false)} isMobile={true} />
-          <LiveStats />
         </div>
       </SheetContent>
     </Sheet>
   );
 }
 
-// Export individual components
 export { DesktopSidebar, MobileSidebar };
 
-// Export Combined Sidebar (only for desktop use)
 export default function DashboardSidebar() {
   return <DesktopSidebar />;
 }

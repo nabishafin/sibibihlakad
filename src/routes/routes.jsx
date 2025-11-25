@@ -18,6 +18,7 @@ import Language from "../pages/dashboardpages/language/Language";
 
 import { ScratchCard } from "@/pages/dashboardpages/games/scratch-card/ScratchCard";
 import SpinWheelPage from "@/pages/dashboardpages/games/spin-wheel/SpinWheelPage";
+import AllActivity from "@/pages/dashboardpages/activity/AllActivity";
 
 const routes = createBrowserRouter([
   {
@@ -50,6 +51,7 @@ const routes = createBrowserRouter([
       { path: "games/scratch-card", element: <ScratchCard /> },
       { path: "wallet", element: <Wallet /> },
       { path: "history", element: <History /> },
+      { path: "activity", element: <AllActivity /> },
       { path: "language", element: <Language /> },
     ],
   },

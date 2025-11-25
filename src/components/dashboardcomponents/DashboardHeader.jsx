@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +9,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, ChevronDown, Coins } from "lucide-react";
+import { Search, ChevronDown, Coins, Bitcoin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MobileSidebar } from "./DashboardSidebar";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function DashboardHeader() {
   return (
@@ -24,34 +26,32 @@ export default function DashboardHeader() {
           </div>
 
           {/* Logo */}
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="bg-yellow-500 rounded-full p-1.5">
-              <Coins className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-lg font-bold hidden sm:inline">NASIIB</span>
-          </Link>
         </div>
-
-        {/* Right Section */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          {/* Balance Display */}
-          <div className="flex items-center gap-2 bg-[#2a3645] rounded-full px-3 py-1.5">
-            <Coins className="h-4 w-4 text-yellow-500" />
-            <span className="text-sm font-semibold">$12,020</span>
+        <div className="hidden sm:flex items-center gap-3 bg-[#0B121D] border border-gray-800 rounded-xl p-2 pl-4">
+          <div className="flex gap-2 items-center">
+            <div className="bg-yellow-500 rounded-full p-2 rotate-0">
+              <Bitcoin />
+            </div>
+            <span className="text-md font-semibold">$12,020</span>
           </div>
 
-          {/* Deposit Button */}
-          <Button className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-4 py-1.5 h-8 text-sm rounded-md">
-            Deposit
-          </Button>
+          <AnimatedButton
+            text="Deposit"
+            fillColor1="#FFCE00"
+            fillColor2="#FFB800"
+          />
+        </div>
 
-          {/* Search Icon */}
+        <div className="flex items-center gap-4 rounded-md">
+          {/* Balance & Deposit Group */}
+
+          {/* Search Button */}
           <Button
             variant="ghost"
             size="icon"
-            className="text-gray-300 hover:text-white hover:bg-[#2a3645] h-9 w-9 rounded-md"
+            className="text-gray-300 hover:text-white bg-[#0B121D] hover:bg-[#1a2332] border border-gray-800 h-14 w-14 rounded-xl"
           >
-            <Search className="h-4 w-4" />
+            <Search size={20} className="h-8 w-8" />
           </Button>
 
           {/* User Menu */}
@@ -59,9 +59,9 @@ export default function DashboardHeader() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2 hover:bg-[#2a3645] px-2 py-1.5 h-auto rounded-md"
+                className="flex items-center gap-3 bg-[#0B121D] hover:bg-[#1a2332] border border-gray-800 rounded-xl p-2 pr-4 h-auto"
               >
-                <Avatar className="h-7 w-7">
+                <Avatar className="h-9 w-9">
                   <AvatarImage
                     src="/placeholder.svg?height=32&width=32"
                     alt="User"
