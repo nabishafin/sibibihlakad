@@ -1,4 +1,5 @@
 import React from "react";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export const StakeSelector = ({
   selectedStake,
@@ -18,8 +19,8 @@ export const StakeSelector = ({
           <button
             key={stake}
             className={`px-4 py-2 rounded-lg transition-all font-medium ${selectedStake === stake
-                ? "bg-[#ffae2c] text-[#0e1624]"
-                : "bg-[#1a2536] text-white hover:bg-[#2a3546]"
+              ? "bg-[#ffae2c] text-[#0e1624]"
+              : "bg-[#1a2536] text-white hover:bg-[#2a3546]"
               } ${isSpinning ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={() => !isSpinning && setSelectedStake(stake)}
             disabled={isSpinning}
@@ -30,23 +31,21 @@ export const StakeSelector = ({
       </div>
 
       <div className="grid grid-cols-2 gap-3 pt-2">
-        <button
+        <AnimatedButton
+          text={isSpinning ? "Spinning..." : "Spin Now"}
+          fillColor1="#FFCE00"
+          fillColor2="#FFB800"
           onClick={onSpin}
-          disabled={isSpinning}
-          className={`bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold px-6 py-3 rounded-lg transition-all ${isSpinning ? "opacity-50 cursor-not-allowed" : "hover:scale-[1.02]"
-            }`}
-        >
-          {isSpinning ? "Spinning..." : "Spin Now"}
-        </button>
+          className={isSpinning ? "opacity-50 cursor-not-allowed" : ""}
+        />
 
-        <button
+        <AnimatedButton
+          text="Double Stake"
+          fillColor1="#2e7c83"
+          fillColor2="#3a9299"
           onClick={onDoubleStake}
-          disabled={isSpinning}
-          className={`bg-[#2e7c83] hover:bg-[#3a9299] text-white font-semibold px-6 py-3 rounded-lg transition-all ${isSpinning ? "opacity-50 cursor-not-allowed" : "hover:scale-[1.02]"
-            }`}
-        >
-          Double Stake
-        </button>
+          className={isSpinning ? "opacity-50 cursor-not-allowed" : ""}
+        />
       </div>
     </div>
   );

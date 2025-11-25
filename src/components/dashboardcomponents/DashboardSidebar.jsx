@@ -182,7 +182,7 @@ function SidebarNav({ onLinkClick, isMobile = false }) {
 // Desktop Sidebar
 function DesktopSidebar() {
   return (
-    <div className="hidden lg:flex h-full w-64 flex-col bg-[#0E1624] border-r border-gray-700">
+    <div className="hidden lg:flex h-full w-72 flex-col bg-[#0E1624] border-r border-gray-700">
       <div className="p-6">
         <Link to="/dashboard" className="flex items-center gap-2">
           <img src={nasib} className="w-44" alt="" />

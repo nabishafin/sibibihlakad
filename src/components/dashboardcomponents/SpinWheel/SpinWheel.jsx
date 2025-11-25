@@ -21,7 +21,7 @@ export const SpinWheel = ({ isSpinning }) => {
     { text: "1x", color: "#4db6ac" },
   ];
 
-  // Easing function for smooth deceleration (cubic-bezier equivalent)
+  // Smooth deceleration function
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
   const drawWheel = (rotation) => {
@@ -53,7 +53,7 @@ export const SpinWheel = ({ isSpinning }) => {
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Draw segment text
+      // Text on segments
       ctx.save();
       ctx.translate(centerX, centerY);
       ctx.rotate(startAngle + segmentAngle / 2);
@@ -66,7 +66,7 @@ export const SpinWheel = ({ isSpinning }) => {
       ctx.restore();
     });
 
-    // Draw center circle
+    // Center circle
     ctx.beginPath();
     ctx.arc(centerX, centerY, 30, 0, 2 * Math.PI);
     ctx.fillStyle = "#0e1624";
@@ -75,27 +75,22 @@ export const SpinWheel = ({ isSpinning }) => {
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    // Draw center pointer (Dark Needle)
+    // ===== BLACK POINTER =====
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
     ctx.shadowBlur = 10;
     ctx.shadowOffsetY = 4;
 
-    // Pointer Shape (Needle + Circle Base)
     ctx.beginPath();
-    // Start at the tip
     ctx.moveTo(0, -80);
-    // Curve down to the right side of the base
     ctx.quadraticCurveTo(5, -40, 12, -5);
-    // Arc around the bottom
     ctx.arc(0, 0, 18, 0, Math.PI * 2);
-    // Curve back up to the tip from the left side
     ctx.moveTo(-12, -5);
     ctx.quadraticCurveTo(-5, -40, 0, -80);
     ctx.closePath();
 
-    ctx.fillStyle = "#0e1624";
+    ctx.fillStyle = "#000000"; // PURE BLACK POINTER
     ctx.fill();
 
     ctx.restore();
@@ -105,7 +100,7 @@ export const SpinWheel = ({ isSpinning }) => {
     if (isAnimatingRef.current) {
       const currentTime = Date.now();
       const elapsed = currentTime - startTimeRef.current;
-      const duration = 10000; // 10 seconds duration
+      const duration = 10000; // 10 seconds spin
 
       if (elapsed < duration) {
         const progress = elapsed / duration;
@@ -132,9 +127,9 @@ export const SpinWheel = ({ isSpinning }) => {
       startTimeRef.current = Date.now();
       startRotationRef.current = rotationRef.current;
 
-      // Start fast (more rotations) and slow down
-      const fullSpins = 20 + Math.random() * 5; // Increased spins for higher initial speed
+      const fullSpins = 20 + Math.random() * 5;
       const randomSegment = Math.random() * 2 * Math.PI;
+
       targetRotationRef.current =
         rotationRef.current + fullSpins * 2 * Math.PI + randomSegment;
     }
@@ -146,6 +141,7 @@ export const SpinWheel = ({ isSpinning }) => {
 
     canvas.width = 400;
     canvas.height = 400;
+
     drawWheel(rotationRef.current);
     animationRef.current = requestAnimationFrame(animate);
 
@@ -168,4 +164,5 @@ export const SpinWheel = ({ isSpinning }) => {
     </div>
   );
 };
+
 export default SpinWheel;

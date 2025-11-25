@@ -46,12 +46,16 @@ export function BalanceCard() {
             <div className="rounded-full">
               <AnimatedButton
                 text="Deposit"
+                width="w-auto"
+                className="px-6"
                 fillColor1="#FFCE00"
                 fillColor2="#FFB800"
               />
             </div>
             <AnimatedButton
               text="Play now"
+              width="w-auto"
+              className="px-6"
               fillColor1="#2E7C83"
               fillColor2="#32EEFF2E"
             />

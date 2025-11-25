@@ -16,7 +16,7 @@ import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export default function DashboardHeader() {
   return (
-    <header className="bg-[#0E1624] text-white px-4 sm:px-6 lg:px-8 py-5 ">
+    <header className="bg-[#0E1624] text-white px-2 sm:px-6 lg:px-8 py-2 ">
       <div className="flex items-center justify-between">
         {/* Left Section - Logo */}
         <div className="flex items-center gap-3">
@@ -37,6 +37,8 @@ export default function DashboardHeader() {
 
           <AnimatedButton
             text="Deposit"
+            width="w-auto"
+            className="px-6"
             fillColor1="#FFCE00"
             fillColor2="#FFB800"
           />

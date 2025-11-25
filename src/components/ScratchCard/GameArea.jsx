@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { RefreshCcwIcon } from "lucide-react";
+import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export function GameArea() {
   const [selectedStake, setSelectedStake] = useState("0.001 BTC");
@@ -130,23 +131,25 @@ export function GameArea() {
 
         {/* Action Buttons */}
         <div className="grid grid-cols-2 gap-3">
-          <button
-            className="bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]"
+          <AnimatedButton
+            text={
+              gameState === "idle"
+                ? "Play Now"
+                : gameState === "playing"
+                  ? "Playing..."
+                  : "Play Again"
+            }
+            fillColor1="#FFCE00"
+            fillColor2="#FFB800"
             onClick={handlePlayNow}
-            disabled={gameState === "playing"}
-          >
-            {gameState === "idle"
-              ? "Play Now"
-              : gameState === "playing"
-                ? "Playing..."
-                : "Play Again"}
-          </button>
-          <button
-            className="bg-[#2e7c83] hover:bg-[#3a9299] text-white font-semibold py-3 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]"
-            disabled={gameState === "playing"}
-          >
-            Double Stake
-          </button>
+            className={gameState === "playing" ? "opacity-50 cursor-not-allowed" : ""}
+          />
+          <AnimatedButton
+            text="Double Stake"
+            fillColor1="#2e7c83"
+            fillColor2="#3a9299"
+            className={gameState === "playing" ? "opacity-50 cursor-not-allowed" : ""}
+          />
         </div>
       </div>
     </div>

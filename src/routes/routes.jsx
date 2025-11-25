@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 
-// Layout
-import DashboardLayout from "../layouts/DashboardLayout";
+// Layouts
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 // Auth Pages
-import SignInPage from "../pages/auth/SignInPage";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import OTPVerification from "../pages/auth/OTPVerification";
-import ResetPassword from "../pages/auth/ResetPassword";
+import SignInPage from "@/pages/auth/SignInPage";
+import RegisterPage from "@/pages/auth/RegisterPage";
+import ForgotPassword from "@/pages/auth/ForgotPassword";
+import OTPVerification from "@/pages/auth/OTPVerification";
+import ResetPassword from "@/pages/auth/ResetPassword";
 
 // Dashboard Pages
 import Home from "../pages/dashboardpages/home/Home";
@@ -28,6 +29,10 @@ const routes = createBrowserRouter([
   {
     path: "/signin",
     element: <SignInPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
   },
   {
     path: "/forgotpass",

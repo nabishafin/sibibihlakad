@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 const AnimatedButton = ({
   text = "Button",
   className,
-
+  width = "w-full", // Default to full width, but can be overridden
   textColor = "#FFFFFF",
   fillColor1 = "#FFCE00",
   fillColor2 = "#FFB800",
@@ -14,7 +14,7 @@ const AnimatedButton = ({
     <button
       onClick={onClick}
       className={cn(
-        "relative inline-block w-[150px] h-[48px] rounded-xl border-[2px] overflow-hidden z-10",
+        `relative inline-block ${width} h-[48px] rounded-xl border-[2px] overflow-hidden z-10`,
         className
       )}
     >
