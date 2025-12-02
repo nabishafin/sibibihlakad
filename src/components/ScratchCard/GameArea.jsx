@@ -1,112 +1,241 @@
 import React, { useState } from "react";
-import { RefreshCcwIcon } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 
 export function GameArea() {
-  const [selectedStake, setSelectedStake] = useState("0.001 BTC");
-  const [gameState, setGameState] = useState("idle"); // 'idle' | 'playing' | 'finished'
-  const [scratchedCards, setScratchedCards] = useState([]);
-  const [cardSymbols, setCardSymbols] = useState([]);
-  const stakeOptions = ["0.0005 BTC", "0.001 BTC", "0.002 BTC", "0.005 BTC"];
-  const symbols = ["₿", "💎", "⭐", "🎰", "💰"];
+  const [selectedStake, setSelectedStake] = useState("0.001");
+  const stakeOptions = ["0.0005", "0.001", "0.002", "0.005"];
 
-  const handlePlayNow = () => {
-    const newSymbols = Array(9)
-      .fill(0)
-      .map(() => symbols[Math.floor(Math.random() * symbols.length)]);
-    setCardSymbols(newSymbols);
-    setScratchedCards([]);
-    setGameState("playing");
+  const renderSymbol = (symbol) => {
+    switch (symbol) {
+      case 'star':
+        return (
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 100 100"
+            className="drop-shadow-lg"
+          >
+            <defs>
+              <linearGradient
+                id="goldGradient"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="50%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#B8860B" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M50 10 L61 38 L92 38 L67 56 L78 84 L50 66 L22 84 L33 56 L8 38 L39 38 Z"
+              fill="url(#goldGradient)"
+              stroke="#8B6914"
+              strokeWidth="1"
+            />
+          </svg>
+        );
+      case 'moneybag':
+        return (
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 100 100"
+            className="drop-shadow-lg"
+          >
+            <defs>
+              <linearGradient
+                id="goldGradient2"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="50%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#B8860B" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M35 25 L40 20 L45 25 L50 20 L55 25 L60 20 L65 25 L65 30 L35 30 Z"
+              fill="url(#goldGradient2)"
+              stroke="#8B6914"
+              strokeWidth="1"
+            />
+            <ellipse
+              cx="50"
+              cy="60"
+              rx="25"
+              ry="30"
+              fill="url(#goldGradient2)"
+              stroke="#8B6914"
+              strokeWidth="1"
+            />
+            <text
+              x="50"
+              y="70"
+              fontSize="32"
+              fontWeight="bold"
+              fill="#1a0f0f"
+              textAnchor="middle"
+            >
+              $
+            </text>
+          </svg>
+        );
+      case 'spade':
+        return (
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 100 100"
+            className="drop-shadow-lg"
+          >
+            <defs>
+              <linearGradient
+                id="goldGradient3"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="50%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#B8860B" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M50 15 C35 30 20 40 20 55 C20 65 28 73 38 73 C42 73 45 71 47 68 C45 75 42 82 38 88 L62 88 C58 82 55 75 53 68 C55 71 58 73 62 73 C72 73 80 65 80 55 C80 40 65 30 50 15 Z"
+              fill="url(#goldGradient3)"
+              stroke="#8B6914"
+              strokeWidth="1"
+            />
+          </svg>
+        );
+      case 'diamond':
+        return (
+          <svg
+            width="80"
+            height="80"
+            viewBox="0 0 100 100"
+            className="drop-shadow-lg"
+          >
+            <defs>
+              <linearGradient
+                id="goldGradient4"
+                x1="0%"
+                y1="0%"
+                x2="0%"
+                y2="100%"
+              >
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="50%" stopColor="#D4AF37" />
+                <stop offset="100%" stopColor="#B8860B" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M50 20 L70 50 L50 80 L30 50 Z"
+              fill="url(#goldGradient4)"
+              stroke="#8B6914"
+              strokeWidth="1"
+            />
+            <path
+              d="M50 20 L50 80 M30 50 L70 50"
+              stroke="#8B6914"
+              strokeWidth="1"
+              opacity="0.5"
+            />
+          </svg>
+        );
+      case 'center':
+        return (
+          <div className="relative w-full h-full flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border-4 border-[#D4AF37]" />
+            <div className="absolute inset-2 rounded-full border-2 border-[#D4AF37]" />
+            <div className="relative z-10 flex flex-col items-center justify-center">
+              <svg
+                width="60"
+                height="60"
+                viewBox="0 0 100 100"
+                className="mb-1"
+              >
+                <defs>
+                  <linearGradient
+                    id="centerGoldGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#FFD700" />
+                    <stop offset="50%" stopColor="#D4AF37" />
+                    <stop offset="100%" stopColor="#B8860B" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M50 15 C35 30 20 40 20 55 C20 65 28 73 38 73 C42 73 45 71 47 68 C45 75 42 82 38 88 L62 88 C58 82 55 75 53 68 C55 71 58 73 62 73 C72 73 80 65 80 55 C80 40 65 30 50 15 Z"
+                  fill="url(#centerGoldGradient)"
+                  stroke="#8B6914"
+                  strokeWidth="1"
+                />
+              </svg>
+              <div className="text-[#D4AF37] text-lg font-bold tracking-wider">
+                NASIIB
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
-  const handleCardClick = (index) => {
-    if (gameState !== "playing" || scratchedCards.includes(index)) return;
-    const newScratchedCards = [...scratchedCards, index];
-    setScratchedCards(newScratchedCards);
-    if (newScratchedCards.length === 3)
-      setTimeout(() => checkWin(newScratchedCards), 500);
-  };
-
-  const checkWin = (scratched) => {
-    const scratchedSymbols = scratched.map((i) => cardSymbols[i]);
-    const isWin = scratchedSymbols.every((s) => s === scratchedSymbols[0]);
-    setGameState("finished");
-    alert(
-      isWin
-        ? `🎉 You won! Matched 3 ${scratchedSymbols[0]}!`
-        : "Try again! No matching symbols."
-    );
-  };
-
-  const handleNewCard = () => {
-    setGameState("idle");
-    setScratchedCards([]);
-    setCardSymbols([]);
-  };
+  const cards = [
+    { id: 1, symbol: 'star', bg: 'bg-[#0a2420]' },
+    { id: 2, symbol: 'star', bg: 'bg-[#1a1410]' },
+    { id: 3, symbol: 'moneybag', bg: 'bg-[#0a2420]' },
+    { id: 4, symbol: 'spade', bg: 'bg-[#1a0f0f]' },
+    { id: 5, symbol: 'center', bg: 'bg-transparent' },
+    { id: 6, symbol: 'star', bg: 'bg-[#1a1410]' },
+    { id: 7, symbol: 'star', bg: 'bg-[#1a0f0f]' },
+    { id: 8, symbol: 'diamond', bg: 'bg-[#0a2420]' },
+    { id: 9, symbol: 'star', bg: 'bg-[#0a2420]' },
+  ];
 
   return (
-    <div className="flex-1 max-w-2xl mx-auto p-6">
+    <div className="flex-1 max-w-2xl mx-auto">
       <div className="space-y-6">
 
-        {/* Balance & New Card */}
+        {/* Balance & New Card Button */}
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-sm text-gray-400 mb-1">Your Balance</p>
-            <p className="text-3xl font-bold">0.00 BTC</p>
+            <p className="text-3xl font-bold text-[#D4AF37]">₿ 0.00 BTC</p>
           </div>
-          <button
-            className="flex items-center gap-2 border-2 border-[#ffae2c] text-[#ffae2c] px-4 py-2 rounded-lg hover:bg-[#ffae2c] hover:text-[#0e1624] transition-all font-medium"
-            onClick={handleNewCard}
-          >
-            <RefreshCcwIcon size={18} />
-            <span>New Card</span>
+          <button className="border-2 border-[#D4AF37] text-[#D4AF37] px-6 py-2 rounded-lg hover:bg-[#D4AF37]/10 transition-all font-medium">
+            New Card
           </button>
         </div>
 
-        {/* Scratch Cards Grid */}
-        <div className="bg-[#0B121D] rounded-xl p-8 border border-gray-800">
-          <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
-            {[...Array(9)].map((_, index) => {
-              const isScratched = scratchedCards.includes(index);
-              const isClickable = gameState === "playing" && !isScratched;
-              return (
-                <div
-                  key={index}
-                  className={`aspect-square rounded-lg flex items-center justify-center transition-all
-                    ${isClickable
-                      ? "cursor-pointer hover:scale-105 hover:bg-[#3a9299]"
-                      : ""
-                    }
-                    ${isScratched ? "bg-[#1a2536]" : "bg-[#2e7c83]"}`}
-                  onClick={() => handleCardClick(index)}
-                >
-                  {isScratched ? (
-                    <div className="text-4xl animate-bounce">
-                      {cardSymbols[index]}
-                    </div>
-                  ) : (
-                    <div className="text-[#ffae2c]">
-                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M12 2L14.2451 8.90983H21.5106L15.6327 13.1803L17.8779 20.0902L12 15.8197L6.12215 20.0902L8.36729 13.1803L2.48944 8.90983H9.75486L12 2Z"
-                          stroke="#ffae2c"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  )}
+        {/* Scratch Card Container */}
+        <div className="bg-[#0a0a0a] rounded-2xl p-8 border-2 border-[#D4AF37]">
+          {/* Card Grid */}
+          <div className="relative grid grid-cols-3 gap-4">
+            {cards.map((card) =>
+              card.symbol === 'center' ? (
+                <div key={card.id} className="aspect-square flex items-center justify-center">
+                  {renderSymbol(card.symbol)}
                 </div>
-              );
-            })}
+              ) : (
+                <div
+                  key={card.id}
+                  className={`${card.bg} border-2 border-[#D4AF37] rounded-2xl aspect-square flex items-center justify-center`}
+                >
+                  {renderSymbol(card.symbol)}
+                </div>
+              )
+            )}
           </div>
-
-          {gameState === "playing" && (
-            <div className="text-center mt-4 text-[#ffae2c] font-medium text-sm">
-              Click 3 cards ({scratchedCards.length}/3)
-            </div>
-          )}
         </div>
 
         {/* Stake Selection */}
@@ -117,39 +246,29 @@ export function GameArea() {
               <button
                 key={stake}
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${selectedStake === stake
-                  ? "bg-[#ffae2c] text-[#0e1624]"
-                  : "bg-[#1a2536] text-white hover:bg-[#2a3546]"
+                    ? "bg-[#ffae2c] text-[#0e1624]"
+                    : "bg-[#1a2536] text-white hover:bg-[#2a3546]"
                   }`}
                 onClick={() => setSelectedStake(stake)}
-                disabled={gameState === "playing"}
               >
-                {stake}
+                {stake} BTC
               </button>
             ))}
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3">
-          <AnimatedButton
-            text={
-              gameState === "idle"
-                ? "Play Now"
-                : gameState === "playing"
-                  ? "Playing..."
-                  : "Play Again"
-            }
-            fillColor1="#FFCE00"
-            fillColor2="#FFB800"
-            onClick={handlePlayNow}
-            className={gameState === "playing" ? "opacity-50 cursor-not-allowed" : ""}
-          />
-          <AnimatedButton
-            text="Double Stake"
-            fillColor1="#2e7c83"
-            fillColor2="#3a9299"
-            className={gameState === "playing" ? "opacity-50 cursor-not-allowed" : ""}
-          />
+          {/* Action Buttons */}
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <AnimatedButton
+              text="Play Now"
+              fillColor1="#FFCE00"
+              fillColor2="#FFB800"
+            />
+            <AnimatedButton
+              text="Double Stake"
+              fillColor1="#2e7c83"
+              fillColor2="#3a9299"
+            />
+          </div>
         </div>
       </div>
     </div>
