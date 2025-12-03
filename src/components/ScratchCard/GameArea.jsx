@@ -246,8 +246,8 @@ export function GameArea() {
               <button
                 key={stake}
                 className={`px-4 py-2 rounded-lg transition-all font-medium ${selectedStake === stake
-                    ? "bg-[#ffae2c] text-[#0e1624]"
-                    : "bg-[#1a2536] text-white hover:bg-[#2a3546]"
+                  ? "bg-[#ffae2c] text-[#0e1624]"
+                  : "bg-[#1a2536] text-white hover:bg-[#2a3546]"
                   }`}
                 onClick={() => setSelectedStake(stake)}
               >
