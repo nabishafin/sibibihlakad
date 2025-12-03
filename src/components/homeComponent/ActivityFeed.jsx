@@ -58,7 +58,7 @@ export const ActivityFeed = () => {
         <h2 className="text-white text-lg font-medium">Live Activity</h2>
         <Link
           to="/dashboard/activity"
-          className="text-[#ffae2c] text-sm hover:underline"
+          className="text-[#DAA520] text-sm hover:underline"
         >
           View all
         </Link>

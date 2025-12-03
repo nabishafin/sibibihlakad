@@ -86,33 +86,30 @@ export function GameHistoryTable() {
         <div className="flex gap-2">
           <button
             onClick={() => setActiveFilter("All")}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeFilter === "All"
-                ? "bg-[#ffae2c] text-[#0e1624]"
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeFilter === "All"
+                ? "bg-[#DAA520] text-[#0e1624]"
                 : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
-            }`}
+              }`}
           >
             All
           </button>
 
           <button
             onClick={() => setActiveFilter("Scratch")}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeFilter === "Scratch"
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeFilter === "Scratch"
                 ? "bg-[#ffae2c] text-[#0e1624]"
                 : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
-            }`}
+              }`}
           >
             Scratch
           </button>
 
           <button
             onClick={() => setActiveFilter("Spin")}
-            className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-              activeFilter === "Spin"
+            className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeFilter === "Spin"
                 ? "bg-[#ffae2c] text-[#0e1624]"
                 : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
-            }`}
+              }`}
           >
             Spin
           </button>
@@ -161,11 +158,10 @@ export function GameHistoryTable() {
 
                 <td className="px-6 py-4">
                   <span
-                    className={`inline-block px-3 py-1 rounded-full text-sm border ${
-                      entry.result === "Win"
+                    className={`inline-block px-3 py-1 rounded-full text-sm border ${entry.result === "Win"
                         ? "text-[#3fb185] border-[#3fb185]"
                         : "text-[#f34f4f] border-[#f34f4f]"
-                    }`}
+                      }`}
                   >
                     {entry.result}
                   </span>

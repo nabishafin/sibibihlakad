@@ -42,79 +42,98 @@
 }
 
 :root {
+  /* NASIIB Brand Colors */
+  --nasiib-gold: #DAA520;
+  --nasiib-gold-light: #E8C15F;
+  --nasiib-gold-dark: #C9941A;
+  --nasiib-dark-bg: #0a0a0a;
+  --nasiib-card-bg: #0E1624;
+  --nasiib-card-bg-light: #1a2332;
+
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --background: #0a0a0a;
+  --foreground: oklch(0.985 0 0);
+  --card: #0E1624;
+  --card-foreground: oklch(0.985 0 0);
+  --popover: #0E1624;
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: #DAA520;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a2332;
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: #1a2332;
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: #DAA520;
+  --accent-foreground: #0a0a0a;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: rgba(218, 165, 32, 0.2);
+  --input: rgba(218, 165, 32, 0.15);
+  --ring: #DAA520;
+  --chart-1: #DAA520;
+  --chart-2: #E8C15F;
+  --chart-3: #C9941A;
+  --chart-4: #8B6914;
+  --chart-5: #D4AF37;
+  --sidebar: #0E1624;
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: #DAA520;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1a2332;
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: rgba(218, 165, 32, 0.2);
+  --sidebar-ring: #DAA520;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #0a0a0a;
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: #0E1624;
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: #0E1624;
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: #DAA520;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a2332;
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: #1a2332;
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: #DAA520;
+  --accent-foreground: #0a0a0a;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
+  --border: rgba(218, 165, 32, 0.2);
+  --input: rgba(218, 165, 32, 0.15);
+  --ring: #DAA520;
+  --chart-1: #DAA520;
+  --chart-2: #E8C15F;
+  --chart-3: #C9941A;
+  --chart-4: #8B6914;
+  --chart-5: #D4AF37;
+  --sidebar: #0E1624;
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-primary: #DAA520;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #1a2332;
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: rgba(218, 165, 32, 0.2);
+  --sidebar-ring: #DAA520;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 transition-colors duration-200;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    @apply transition-all duration-200 ease-in-out;
   }
 }

@@ -16,7 +16,7 @@ const SignInPage = () => {
             <h1 className="text-3xl font-bold text-white">Login to your account</h1>
             <p className="text-sm text-gray-400">
               Don't have an account?{" "}
-              <Link to="/register" className="text-[#ffae2c] hover:underline">
+              <Link to="/register" className="text-[#DAA520] hover:underline">
                 Register
               </Link>
             </p>
@@ -33,7 +33,7 @@ const SignInPage = () => {
                 id="email"
                 type="text"
                 placeholder="Username or Email"
-                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
+                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#DAA520] h-12"
                 required
               />
             </div>
@@ -47,7 +47,7 @@ const SignInPage = () => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
+                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#DAA520] h-12"
                 required
               />
             </div>
@@ -56,7 +56,7 @@ const SignInPage = () => {
             <div className="flex justify-start">
               <Link
                 to="/forgotpass"
-                className="text-sm text-gray-400 hover:text-[#ffae2c] transition-colors"
+                className="text-sm text-gray-400 hover:text-[#DAA520] transition-colors"
               >
                 Forgot Password?
               </Link>
@@ -65,7 +65,7 @@ const SignInPage = () => {
             {/* Play Now Button */}
             <Button
               type="submit"
-              className="w-full bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base"
+              className="w-full bg-[#DAA520] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base"
             >
               Play Now
             </Button>
