@@ -6,7 +6,7 @@ import nasibLogo from "../../assets/Nasib.png";
 
 const RegisterPage = () => {
     return (
-        <div className="flex h-screen bg-[#1a2332]">
+        <div className="flex h-screen bg-gradient-to-r from-[#1a2332] to-[#0a0a0a]">
             {/* Left Side - Registration Form */}
             <div className="flex-1 flex items-center justify-center p-8">
                 <div className="w-full max-w-md space-y-6">
@@ -100,15 +100,12 @@ const RegisterPage = () => {
                         </Button>
 
                         {/* Divider */}
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <span className="w-full border-t border-gray-700" />
-                            </div>
-                            <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-[#1a2332] px-2 text-gray-500">
-                                    Or continue with
-                                </span>
-                            </div>
+                        <div className="flex items-center gap-3 my-4">
+                            <div className="h-px flex-1 bg-gray-700"></div>
+                            <span className="text-xs uppercase text-gray-500 font-medium">
+                                Or continue with
+                            </span>
+                            <div className="h-px flex-1 bg-gray-700"></div>
                         </div>
 
                         {/* Google Sign Up */}
@@ -141,7 +138,7 @@ const RegisterPage = () => {
             </div>
 
             {/* Right Side - Logo */}
-            <div className="hidden lg:flex flex-1 items-center justify-center bg-[#0e1624]">
+            <div className="hidden lg:flex flex-1 items-center justify-center bg-transparent">
                 <div className="text-center">
                     <img src={nasibLogo} alt="Nasiib Logo" className="w-96 mx-auto" />
                 </div>

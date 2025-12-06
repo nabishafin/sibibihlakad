@@ -5,9 +5,9 @@ const AnimatedButton = ({
   text = "Button",
   className,
   width = "w-full", // Default to full width, but can be overridden
-  textColor = "#FFFFFF",
-  fillColor1 = "#FFCE00",
-  fillColor2 = "#FFB800",
+  textColor = "#000000",
+  fillColor1 = "#FFD700", // Premium Gold Light
+  fillColor2 = "#DAA520", // Premium Gold Dark
   onClick,
 }) => {
   return (

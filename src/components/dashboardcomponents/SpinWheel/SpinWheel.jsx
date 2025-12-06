@@ -10,13 +10,17 @@ export const SpinWheel = ({ isSpinning: externalIsSpinning }) => {
   const segments = [
     { label: "10x", color: "#B22222", textColor: "#D4AF37", fontSize: 14 }, // Red
     { label: "5x", color: "#2D5016", textColor: "#D4AF37", fontSize: 14 }, // Dark Green
-    { label: "3x", color: "#D4A520", textColor: "#D4AF37", fontSize: 16 }, // Gold/Yellow
-    { label: "5S", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14 }, // Navy Blue
-    { label: "5x", color: "#4B0082", textColor: "#D4AF37", fontSize: 14 }, // Purple
+    { label: "3x", color: "#A2234E", textColor: "#D4AF37", fontSize: 16 }, // Updated Gold->Brand Color
+
+    { label: "MISS", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14 }, // Navy MISS
+
+    { label: "2x", color: "#4B0082", textColor: "#D4AF37", fontSize: 14 }, // Purple
     { label: "1x", color: "#2D5016", textColor: "#D4AF37", fontSize: 14 }, // Dark Green
-    { label: "1SS", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14 }, // Navy Blue
-    { label: "MISS", color: "#B22222", textColor: "#D4AF37", fontSize: 14 }, // Red
-  ]
+
+    { label: "MISS", color: "#B22222", textColor: "#D4AF37", fontSize: 14 }, // Red MISS
+
+    { label: "0x", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14 }, // Navy
+  ];
 
   React.useEffect(() => {
     if (externalIsSpinning && !isSpinning) {

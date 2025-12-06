@@ -8,6 +8,14 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Brand Colors configured in Tailwind */
+  --color-nasiib-gold: var(--nasiib-gold);
+  --color-nasiib-gold-light: var(--nasiib-gold-light);
+  --color-nasiib-gold-dark: var(--nasiib-gold-dark);
+  --color-nasiib-bg: var(--nasiib-dark-bg);
+  --color-nasiib-card: var(--nasiib-card-bg);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -42,80 +50,88 @@
 }
 
 :root {
-  /* NASIIB Brand Colors */
+  /* NASIIB Premium Brand Colors */
   --nasiib-gold: #DAA520;
+  /* Warm Gold (GoldenRod) */
   --nasiib-gold-light: #E8C15F;
-  --nasiib-gold-dark: #C9941A;
-  --nasiib-dark-bg: #0a0a0a;
-  --nasiib-card-bg: #0E1624;
-  --nasiib-card-bg-light: #1a2332;
+  /* Lighter Gold for highlights */
+  --nasiib-gold-dark: #B8860B;
+  /* Darker Gold for depth/shadows */
+
+  --nasiib-dark-bg: #0A0A0A;
+  /* Deep Black */
+  --nasiib-card-bg: #101010;
+  /* Slightly lighter black for cards */
+  --nasiib-card-border: #DAA520;
 
   --radius: 0.625rem;
-  --background: #0a0a0a;
-  --foreground: oklch(0.985 0 0);
-  --card: #0E1624;
-  --card-foreground: oklch(0.985 0 0);
-  --popover: #0E1624;
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #DAA520;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a2332;
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: #1a2332;
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: #DAA520;
-  --accent-foreground: #0a0a0a;
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(218, 165, 32, 0.2);
-  --input: rgba(218, 165, 32, 0.15);
-  --ring: #DAA520;
-  --chart-1: #DAA520;
-  --chart-2: #E8C15F;
-  --chart-3: #C9941A;
+
+  /* Shadcn Theme Overrides using Brand Colors */
+  --background: var(--nasiib-dark-bg);
+  --foreground: #FFFFFF;
+
+  --card: var(--nasiib-card-bg);
+  --card-foreground: #FFFFFF;
+
+  --popover: var(--nasiib-card-bg);
+  --popover-foreground: #FFFFFF;
+
+  --primary: var(--nasiib-gold);
+  --primary-foreground: #000000;
+
+  --secondary: #1A1A1A;
+  --secondary-foreground: #FFFFFF;
+
+  --muted: #1A1A1A;
+  --muted-foreground: #A1A1AA;
+
+  --accent: var(--nasiib-gold);
+  --accent-foreground: #000000;
+
+  --destructive: #7F1D1D;
+  --destructive-foreground: #FFFFFF;
+
+  --border: rgba(218, 165, 32, 0.3);
+  /* Transparent Gold Border */
+  --input: rgba(218, 165, 32, 0.2);
+  --ring: var(--nasiib-gold);
+
+  --chart-1: var(--nasiib-gold);
+  --chart-2: var(--nasiib-gold-light);
+  --chart-3: var(--nasiib-gold-dark);
   --chart-4: #8B6914;
   --chart-5: #D4AF37;
-  --sidebar: #0E1624;
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: #DAA520;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1a2332;
-  --sidebar-accent-foreground: oklch(0.985 0 0);
+
+  --sidebar: var(--nasiib-dark-bg);
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: var(--nasiib-gold);
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #1A1A1A;
+  --sidebar-accent-foreground: #FFFFFF;
   --sidebar-border: rgba(218, 165, 32, 0.2);
-  --sidebar-ring: #DAA520;
+  --sidebar-ring: var(--nasiib-gold);
 }
 
 .dark {
-  --background: #0a0a0a;
-  --foreground: oklch(0.985 0 0);
-  --card: #0E1624;
-  --card-foreground: oklch(0.985 0 0);
-  --popover: #0E1624;
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #DAA520;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a2332;
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: #1a2332;
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: #DAA520;
-  --accent-foreground: #0a0a0a;
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: rgba(218, 165, 32, 0.2);
-  --input: rgba(218, 165, 32, 0.15);
-  --ring: #DAA520;
-  --chart-1: #DAA520;
-  --chart-2: #E8C15F;
-  --chart-3: #C9941A;
-  --chart-4: #8B6914;
-  --chart-5: #D4AF37;
-  --sidebar: #0E1624;
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: #DAA520;
-  --sidebar-primary-foreground: #0a0a0a;
-  --sidebar-accent: #1a2332;
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: rgba(218, 165, 32, 0.2);
-  --sidebar-ring: #DAA520;
+  /* Inherit mostly since default is already dark, but ensure consistency */
+  --background: var(--nasiib-dark-bg);
+  --foreground: #FFFFFF;
+  --card: var(--nasiib-card-bg);
+  --card-foreground: #FFFFFF;
+  --popover: var(--nasiib-card-bg);
+  --popover-foreground: #FFFFFF;
+  --primary: var(--nasiib-gold);
+  --primary-foreground: #000000;
+  --secondary: #1A1A1A;
+  --secondary-foreground: #FFFFFF;
+  --muted: #1A1A1A;
+  --muted-foreground: #A1A1AA;
+  --accent: var(--nasiib-gold);
+  --accent-foreground: #000000;
+  --destructive: #7F1D1D;
+  --border: rgba(218, 165, 32, 0.3);
+  --input: rgba(218, 165, 32, 0.2);
+  --ring: var(--nasiib-gold);
 }
 
 @layer base {
