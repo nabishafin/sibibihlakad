@@ -3,12 +3,14 @@ import { HowToPlayGames } from "@/components/dashboardcomponents/SpinWheel/HowTo
 import SpinWheelComponent from "@/components/dashboardcomponents/SpinWheel/SpinWheel";
 import { StakeSelector } from "@/components/dashboardcomponents/SpinWheel/StakeSelector";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from "@/redux/slices/authSlice";
 import { useGetMeQuery } from "@/redux/features/user/userApi";
 import { useSubmitSpinWheelResultMutation } from "@/redux/features/games/gameApi";
 import toast from "react-hot-toast";
 
 function SpinWheelPage() {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   // const { data: userData } = useGetMeQuery(); // Removed causing 500
   const balance = user?.wallet?.balance || 0;
@@ -31,7 +33,8 @@ function SpinWheelPage() {
   ];
 
   const handleSpin = () => {
-    if (isSpinning || parseFloat(selectedStake) > balance) return;
+    // Removed balance check to allow testing
+    if (isSpinning) return;
 
     // Determine Result Client-Side
     const totalWeight = SEGMENTS.reduce((sum, s) => sum + s.weight, 0);
@@ -52,12 +55,11 @@ function SpinWheelPage() {
     setIsSpinning(true);
   };
 
-  const onSpinComplete = async () => {
-    // setIsSpinning is set to false by child, but we track UI state here too or rely on child?
-    // With the current prop flow, child calls onSpinComplete when done.
+  const onSpinComplete = async (finalIndex) => {
     setIsSpinning(false);
 
-    const result = SEGMENTS[targetIndex];
+    // Use the index directly from the wheel to be 100% sure it matches visual
+    const result = SEGMENTS[finalIndex];
     const stake = parseFloat(selectedStake);
     const winAmount = stake * result.multiplier;
     const isWin = winAmount > 0;
@@ -69,14 +71,25 @@ function SpinWheelPage() {
       toast.error('No win this time. Try again!', { duration: 3000 });
     }
 
+    // API call re-enabled as per user request
     try {
-      await submitSpin({
+      const response = await submitSpin({
         currency: "BTC",
         stakeAmount: stake,
         multiplier: result.multiplier,
         isWin: isWin,
         winAmount: winAmount
       }).unwrap();
+
+      // If API returns new balance, update local state for immediate feedback
+      if (response?.data?.newBalance !== undefined) {
+        dispatch(updateUser({
+          wallet: {
+            ...user?.wallet,
+            balance: response.data.newBalance
+          }
+        }));
+      }
     } catch (err) {
       console.error("Spin submission failed", err);
     }

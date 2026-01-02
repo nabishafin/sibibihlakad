@@ -65,17 +65,31 @@ export const SpinWheel = ({ isSpinning: externalIsSpinning, targetIndex = 0, onS
     // So we need to rotate by - (targetIndex * 45).
     // Since we only add to rotation, we add (360 - targetIndex*45).
 
-    const targetAngle = (360 - (targetIndex * SEGMENT_ANGLE)) % 360;
+    // Correct calculation for continuous rotation
+    // We want final rotation % 360 to be targetAngle.
+    // targetAngle is the absolute angle (0..360) where the wheel should end up to place targetIndex at top.
+    // targetAngle is the absolute angle (0..360) where the wheel should end up to place targetIndex at top.
+    // Each segment is 45 degrees. To hit the CENTER of the segment, we need to shift by 22.5 degrees.
+    const targetAngle = (360 - 22.5 - (targetIndex * SEGMENT_ANGLE)) % 360;
 
-    // Random offset within segment (-20 to +20)
-    const offset = Math.random() * 40 - 20;
+    // Random offset within segment (-15 to +15) - safe margin within 45deg slice
+    const offset = Math.random() * 30 - 15;
 
-    const newRotation = rotation + spinsDegrees + targetAngle + offset;
+    // Current effective rotation (0..360)
+    const currentAngle = rotation % 360;
+
+    // Calculate how much more we need to rotate to reach targetAngle
+    let delta = targetAngle - currentAngle;
+
+    // Ensure we always rotate forward and complete selected spins
+    if (delta < 0) delta += 360;
+
+    const newRotation = rotation + spinsDegrees + delta + offset;
 
     setRotation(newRotation)
     setTimeout(() => {
       setIsSpinning(false)
-      if (onSpinComplete) onSpinComplete();
+      if (onSpinComplete) onSpinComplete(targetIndex);
     }, 4000)
   }
 

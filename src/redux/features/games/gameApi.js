@@ -15,7 +15,7 @@ export const gameApi = baseApi.injectEndpoints({
         // Spin Wheel Result
         submitSpinWheelResult: builder.mutation({
             query: (data) => ({
-                url: "/games/spin/result",
+                url: "/games/spin-wheel/result",
                 method: "POST",
                 body: data,
             }),

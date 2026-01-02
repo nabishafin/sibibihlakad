@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { cn } from "@/lib/utils";
 import { useSubmitScratchResultMutation } from "@/redux/features/games/gameApi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from "@/redux/slices/authSlice";
 import { useGetMeQuery } from "@/redux/features/user/userApi";
 import toast from "react-hot-toast";
 
@@ -18,6 +19,7 @@ const SYMBOLS = {
 const STAKE_OPTIONS = ["0.0005", "0.001", "0.002", "0.005"];
 
 export function GameArea() {
+  const dispatch = useDispatch();
   // Redux & User State
   const { user } = useSelector((state) => state.auth);
   // Fetch latest balance/data
@@ -129,7 +131,15 @@ export function GameArea() {
         winAmount: winAmount
       }).unwrap();
       console.log("API Success:", response);
-      // Redux cache invalidation will refresh balance
+      // Update local state for immediate feedback
+      if (response?.data?.newBalance !== undefined) {
+        dispatch(updateUser({
+          wallet: {
+            ...user?.wallet,
+            balance: response.data.newBalance
+          }
+        }));
+      }
     } catch (error) {
       console.error("Failed to submit game result:", error);
     }
