@@ -1,10 +1,58 @@
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import nasibLogo from "../../assets/Nasib.png";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { Loader2 } from "lucide-react";
 
 const RegisterPage = () => {
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        terms: false,
+    });
+    const [error, setError] = useState("");
+
+    const navigate = useNavigate();
+    const [register, { isLoading }] = useRegisterMutation();
+
+    const handleChange = (e) => {
+        const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+        setFormData({ ...formData, [e.target.id]: value });
+        setError("");
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+        if (!formData.terms) {
+            setError("Please accept the terms and conditions");
+            return;
+        }
+
+        try {
+            const res = await register({
+                username: formData.username,
+                email: formData.email,
+                password: formData.password,
+            }).unwrap();
+
+            if (res.success) {
+                navigate("/auth/signin");
+            }
+        } catch (err) {
+            console.error("Register failed:", err);
+            setError(err?.data?.message || "Registration failed. Please try again.");
+        }
+    };
+
     return (
         <div className="flex h-screen bg-gradient-to-r from-[#1a2332] to-[#0a0a0a]">
             {/* Left Side - Registration Form */}
@@ -16,29 +64,52 @@ const RegisterPage = () => {
                         <h1 className="text-3xl font-bold text-white">Create your account</h1>
                         <p className="text-sm text-gray-400">
                             Already have an account?{" "}
-                            <Link to="/signin" className="text-[#ffae2c] hover:underline">
+                            <Link to="/auth/signin" className="text-[#ffae2c] hover:underline">
                                 Login
                             </Link>
                         </p>
                     </div>
 
                     {/* Form */}
-                    <div className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        {error && (
+                            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                                {error}
+                            </div>
+                        )}
+
                         {/* Username/Email Field */}
                         <div className="space-y-2">
-                            <Label htmlFor="email" className="text-gray-300">
-                                Username or Email
+                            <Label htmlFor="username" className="text-gray-300">
+                                Username
                             </Label>
                             <Input
-                                id="email"
+                                id="username"
                                 type="text"
-                                placeholder="Username or Email"
+                                value={formData.username}
+                                onChange={handleChange}
+                                placeholder="Choose a username"
                                 className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
                                 required
                             />
                         </div>
 
-                        {/* New Password Field */}
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-gray-300">
+                                Email Address
+                            </Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                placeholder="Enter your email"
+                                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
+                                required
+                            />
+                        </div>
+
+                        {/* Password Fields */}
                         <div className="space-y-2">
                             <Label htmlFor="password" className="text-gray-300">
                                 New Password
@@ -46,13 +117,14 @@ const RegisterPage = () => {
                             <Input
                                 id="password"
                                 type="password"
+                                value={formData.password}
+                                onChange={handleChange}
                                 placeholder="Password"
                                 className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
                                 required
                             />
                         </div>
 
-                        {/* Confirm Password Field */}
                         <div className="space-y-2">
                             <Label htmlFor="confirmPassword" className="text-gray-300">
                                 Confirm Password
@@ -60,6 +132,8 @@ const RegisterPage = () => {
                             <Input
                                 id="confirmPassword"
                                 type="password"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
                                 placeholder="Confirm Password"
                                 className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
                                 required
@@ -76,6 +150,8 @@ const RegisterPage = () => {
                             <input
                                 type="checkbox"
                                 id="terms"
+                                checked={formData.terms}
+                                onChange={handleChange}
                                 className="mt-1 h-4 w-4 rounded border-gray-700 bg-[#0e1624] text-[#ffae2c] focus:ring-[#ffae2c]"
                                 required
                             />
@@ -94,9 +170,17 @@ const RegisterPage = () => {
                         {/* Play Now Button */}
                         <Button
                             type="submit"
-                            className="w-full bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base"
+                            disabled={isLoading}
+                            className="w-full bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base disabled:opacity-50"
                         >
-                            Play Now
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Creating Account...
+                                </>
+                            ) : (
+                                "Play Now"
+                            )}
                         </Button>
 
                         {/* Divider */}
@@ -110,6 +194,7 @@ const RegisterPage = () => {
 
                         {/* Google Sign Up */}
                         <Button
+                            type="button"
                             variant="outline"
                             className="w-full bg-transparent border-gray-700 text-white hover:bg-[#0e1624] h-12"
                         >
@@ -133,7 +218,7 @@ const RegisterPage = () => {
                             </svg>
                             Google
                         </Button>
-                    </div>
+                    </form>
                 </div>
             </div>
 

@@ -9,31 +9,37 @@ export function HowToPlay() {
           <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#1a2536] flex items-center justify-center text-[#ffae2c] text-xs">
             1
           </span>
-          <span>Select your stake amount</span>
+          <span>Select your stake amount.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#1a2536] flex items-center justify-center text-[#ffae2c] text-xs">
             2
           </span>
-          <span>Click "Play Now" to start</span>
+          <span>Click "Play Now" to start the game.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#1a2536] flex items-center justify-center text-[#ffae2c] text-xs">
             3
           </span>
-          <span>Scratch the card to reveal symbols</span>
+          <span>Swipe or click to reveal any 3 cards.</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#1a2536] flex items-center justify-center text-[#ffae2c] text-xs">
             4
           </span>
-          <span>Match 3 BTC symbols to win</span>
+          <span>Match 3 "Nasib" symbols to win!</span>
         </li>
         <li className="flex items-start gap-2">
           <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#1a2536] flex items-center justify-center text-[#ffae2c] text-xs">
             5
           </span>
-          <span>Click "Reveal All" to see the full card</span>
+          <span>If symbols do not match, you lose.</span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#1a2536] flex items-center justify-center text-[#ffae2c] text-xs">
+            6
+          </span>
+          <span>Click "New Card" to reset.</span>
         </li>
       </ol>
 
@@ -47,7 +53,7 @@ export function HowToPlay() {
           <span>0.0005 BTC</span>
         </div>
         <div className="flex justify-between">
-          <span>Final State:</span>
+          <span>Win Multiplier:</span>
           <span>10x Stake</span>
         </div>
       </div>

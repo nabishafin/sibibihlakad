@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 // Layouts
 import DashboardLayout from "@/layouts/DashboardLayout";
+import ProtectedRoute from "./ProtectedRoute";
 
 // Auth Pages
 import SignInPage from "@/pages/auth/SignInPage";
@@ -27,15 +28,15 @@ const routes = createBrowserRouter([
     element: <SignInPage />,
   },
   {
-    path: "/signin",
+    path: "/auth/signin",
     element: <SignInPage />,
   },
   {
-    path: "/register",
+    path: "/auth/register",
     element: <RegisterPage />,
   },
   {
-    path: "/forgotpass",
+    path: "/auth/forgot-password",
     element: <ForgotPassword />,
   },
   {
@@ -48,16 +49,20 @@ const routes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <ProtectedRoute />,
     children: [
-      { index: true, element: <Home /> },
-
-      { path: "games/spin-wheel", element: <SpinWheelPage /> },
-      { path: "games/scratch-card", element: <ScratchCard /> },
-      { path: "wallet", element: <Wallet /> },
-      { path: "history", element: <History /> },
-      { path: "activity", element: <AllActivity /> },
-      { path: "language", element: <Language /> },
+      {
+        element: <DashboardLayout />,
+        children: [
+          { index: true, element: <Home /> },
+          { path: "games/spin-wheel", element: <SpinWheelPage /> },
+          { path: "games/scratch-card", element: <ScratchCard /> },
+          { path: "wallet", element: <Wallet /> },
+          { path: "history", element: <History /> },
+          { path: "activity", element: <AllActivity /> },
+          { path: "language", element: <Language /> },
+        ],
+      },
     ],
   },
 ]);

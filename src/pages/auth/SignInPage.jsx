@@ -1,10 +1,59 @@
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import nasibLogo from "../../assets/Nasib.png";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { setLogin } from "@/redux/slices/authSlice";
+import { Loader2 } from "lucide-react";
 
 const SignInPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setError("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await login({
+        usernameOrEmail: formData.email,
+        password: formData.password,
+      }).unwrap();
+
+      if (res.success) {
+        // Save to LocalStorage
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.refreshToken);
+
+        // Update Redux
+        dispatch(setLogin({
+          user: res.data.user,
+          token: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
+        }));
+
+        // Redirect
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError(err?.data?.message || "Login failed. Please check your credentials.");
+    }
+  };
+
   return (
     <div className="flex h-screen bg-gradient-to-r from-[#1a2332] to-[#0a0a0a]">
       {/* Left Side - Login Form */}
@@ -16,14 +65,20 @@ const SignInPage = () => {
             <h1 className="text-3xl font-bold text-white">Login to your account</h1>
             <p className="text-sm text-gray-400">
               Don't have an account?{" "}
-              <Link to="/register" className="text-[#DAA520] hover:underline">
+              <Link to="/auth/register" className="text-[#DAA520] hover:underline">
                 Register
               </Link>
             </p>
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                {error}
+              </div>
+            )}
+
             {/* Username/Email Field */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-gray-300">
@@ -32,6 +87,8 @@ const SignInPage = () => {
               <Input
                 id="email"
                 type="text"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Username or Email"
                 className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#DAA520] h-12"
                 required
@@ -46,6 +103,8 @@ const SignInPage = () => {
               <Input
                 id="password"
                 type="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Password"
                 className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#DAA520] h-12"
                 required
@@ -55,7 +114,7 @@ const SignInPage = () => {
             {/* Forgot Password Link */}
             <div className="flex justify-start">
               <Link
-                to="/forgotpass"
+                to="/auth/forgot-password"
                 className="text-sm text-gray-400 hover:text-[#DAA520] transition-colors"
               >
                 Forgot Password?
@@ -65,9 +124,17 @@ const SignInPage = () => {
             {/* Play Now Button */}
             <Button
               type="submit"
-              className="w-full bg-[#DAA520] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base"
+              disabled={isLoading}
+              className="w-full bg-[#DAA520] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base disabled:opacity-50"
             >
-              Play Now
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                "Play Now"
+              )}
             </Button>
 
             {/* Divider */}
@@ -81,6 +148,7 @@ const SignInPage = () => {
 
             {/* Google Sign In */}
             <Button
+              type="button"
               variant="outline"
               className="w-full bg-transparent border-gray-700 text-white hover:bg-[#0e1624] h-12"
             >
@@ -104,7 +172,7 @@ const SignInPage = () => {
               </svg>
               Google
             </Button>
-          </div>
+          </form>
         </div>
       </div>
 
