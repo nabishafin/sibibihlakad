@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import nasibLogo from "../../assets/Nasib.png";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
-import { Loader2 } from "lucide-react";
+import AnimatedButton from "@/components/ui/AnimatedButton";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
@@ -16,13 +13,16 @@ const RegisterPage = () => {
         terms: false,
     });
     const [error, setError] = useState("");
-
     const navigate = useNavigate();
+
     const [register, { isLoading }] = useRegisterMutation();
 
     const handleChange = (e) => {
         const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        setFormData({ ...formData, [e.target.id]: value });
+        setFormData({
+            ...formData,
+            [e.target.name]: value,
+        });
         setError("");
     };
 
@@ -30,10 +30,12 @@ const RegisterPage = () => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             setError("Passwords do not match");
+            toast.error("Passwords do not match");
             return;
         }
         if (!formData.terms) {
             setError("Please accept the terms and conditions");
+            toast.error("Please accept the terms and conditions");
             return;
         }
 
@@ -45,11 +47,13 @@ const RegisterPage = () => {
             }).unwrap();
 
             if (res.success) {
+                toast.success("Registration successful! Please login.");
                 navigate("/auth/signin");
             }
         } catch (err) {
             console.error("Register failed:", err);
             setError(err?.data?.message || "Registration failed. Please try again.");
+            // Middleware handles toast error for API calls
         }
     };
 
@@ -58,174 +62,180 @@ const RegisterPage = () => {
             {/* Left Side - Registration Form */}
             <div className="flex-1 flex items-center justify-center p-8">
                 <div className="w-full max-w-md space-y-6">
-
-                    {/* Header */}
-                    <div className="space-y-2">
-                        <h1 className="text-3xl font-bold text-white">Create your account</h1>
-                        <p className="text-sm text-gray-400">
-                            Already have an account?{" "}
-                            <Link to="/auth/signin" className="text-[#ffae2c] hover:underline">
-                                Login
-                            </Link>
-                        </p>
+                    {/* Logo & Header */}
+                    <div className="text-center space-y-2">
+                        <h1 className="text-4xl font-bold bg-gradient-to-r from-[#ffae2c] to-[#ffda8b] bg-clip-text text-transparent">
+                            Create Account
+                        </h1>
+                        <p className="text-gray-400">Join our premium gaming community</p>
                     </div>
 
                     {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} className="space-y-5 mt-6">
                         {error && (
-                            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm text-center">
+                            <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-3 rounded-lg text-sm text-center">
                                 {error}
                             </div>
                         )}
 
-                        {/* Username/Email Field */}
-                        <div className="space-y-2">
-                            <Label htmlFor="username" className="text-gray-300">
-                                Username
-                            </Label>
-                            <Input
-                                id="username"
-                                type="text"
-                                value={formData.username}
-                                onChange={handleChange}
-                                placeholder="Choose a username"
-                                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
-                                required
-                            />
+                        <div className="space-y-4">
+                            {/* Username Input */}
+                            <div className="group">
+                                <label className="block text-sm font-medium text-gray-400 mb-1 pl-1">
+                                    Username
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-[#ffae2c]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        name="username"
+                                        required
+                                        value={formData.username}
+                                        onChange={handleChange}
+                                        className="w-full bg-[#0e1624] border border-gray-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] focus:ring-1 focus:ring-[#ffae2c] transition-all"
+                                        placeholder="johndoe"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Email Input */}
+                            <div className="group">
+                                <label className="block text-sm font-medium text-gray-400 mb-1 pl-1">
+                                    Email Address
+                                </label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-[#ffae2c]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                        </svg>
+                                    </div>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className="w-full bg-[#0e1624] border border-gray-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] focus:ring-1 focus:ring-[#ffae2c] transition-all"
+                                        placeholder="name@company.com"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Password Inputs Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="group">
+                                    <label className="block text-sm font-medium text-gray-400 mb-1 pl-1">
+                                        Password
+                                    </label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-[#ffae2c]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                            </svg>
+                                        </div>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            required
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#0e1624] border border-gray-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] focus:ring-1 focus:ring-[#ffae2c] transition-all"
+                                            placeholder="••••••••"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="group">
+                                    <label className="block text-sm font-medium text-gray-400 mb-1 pl-1">
+                                        Conf. Password
+                                    </label>
+                                    <div className="relative">
+                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 group-focus-within:text-[#ffae2c]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <input
+                                            type="password"
+                                            name="confirmPassword"
+                                            required
+                                            value={formData.confirmPassword}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#0e1624] border border-gray-700 rounded-xl py-3 pl-10 pr-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] focus:ring-1 focus:ring-[#ffae2c] transition-all"
+                                            placeholder="••••••••"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="text-gray-300">
-                                Email Address
-                            </Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Enter your email"
-                                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
-                                required
-                            />
-                        </div>
-
-                        {/* Password Fields */}
-                        <div className="space-y-2">
-                            <Label htmlFor="password" className="text-gray-300">
-                                New Password
-                            </Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                placeholder="Password"
-                                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
-                                required
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <Label htmlFor="confirmPassword" className="text-gray-300">
-                                Confirm Password
-                            </Label>
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                placeholder="Confirm Password"
-                                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
-                                required
-                            />
-                        </div>
-
-                        {/* Password Requirements */}
-                        <p className="text-xs text-gray-500">
-                            Password must be at least 7 characters
-                        </p>
-
-                        {/* Terms and Conditions Checkbox */}
-                        <div className="flex items-start gap-2">
+                        {/* Terms Checkbox */}
+                        <div className="flex items-center">
                             <input
-                                type="checkbox"
                                 id="terms"
+                                name="terms"
+                                type="checkbox"
                                 checked={formData.terms}
                                 onChange={handleChange}
-                                className="mt-1 h-4 w-4 rounded border-gray-700 bg-[#0e1624] text-[#ffae2c] focus:ring-[#ffae2c]"
-                                required
+                                className="h-4 w-4 rounded border-gray-700 bg-[#0e1624] text-[#ffae2c] focus:ring-[#ffae2c]"
                             />
-                            <label htmlFor="terms" className="text-sm text-gray-400">
-                                I am 18+ and have read and accept the{" "}
-                                <Link to="#" className="text-[#ffae2c] hover:underline">
-                                    Terms of Service
-                                </Link>{" "}
-                                and{" "}
-                                <Link to="#" className="text-[#ffae2c] hover:underline">
-                                    Privacy Policy
-                                </Link>
+                            <label htmlFor="terms" className="ml-2 block text-sm text-gray-400">
+                                I agree to the{" "}
+                                <a href="#" className="text-[#ffae2c] hover:underline">
+                                    Terms and Conditions
+                                </a>
                             </label>
                         </div>
 
-                        {/* Play Now Button */}
-                        <Button
-                            type="submit"
+                        {/* Register Button */}
+                        <AnimatedButton
+                            text={isLoading ? "Creating Account..." : "Create Account"}
                             disabled={isLoading}
-                            className="w-full bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base disabled:opacity-50"
-                        >
-                            {isLoading ? (
-                                <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    Creating Account...
-                                </>
-                            ) : (
-                                "Play Now"
-                            )}
-                        </Button>
-
-                        {/* Divider */}
-                        <div className="flex items-center gap-3 my-4">
-                            <div className="h-px flex-1 bg-gray-700"></div>
-                            <span className="text-xs uppercase text-gray-500 font-medium">
-                                Or continue with
-                            </span>
-                            <div className="h-px flex-1 bg-gray-700"></div>
-                        </div>
-
-                        {/* Google Sign Up */}
-                        <Button
-                            type="button"
-                            variant="outline"
-                            className="w-full bg-transparent border-gray-700 text-white hover:bg-[#0e1624] h-12"
-                        >
-                            <svg className="mr-2 h-5 w-5" viewBox="0 0 24 24">
-                                <path
-                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                                    fill="#4285F4"
-                                />
-                                <path
-                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                                    fill="#34A853"
-                                />
-                                <path
-                                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                                    fill="#FBBC05"
-                                />
-                                <path
-                                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                                    fill="#EA4335"
-                                />
-                            </svg>
-                            Google
-                        </Button>
+                            className="w-full py-3.5 text-lg font-bold shadow-lg shadow-[#ffae2c]/20"
+                            fillColor1="#ffae2c"
+                            fillColor2="#ff9500"
+                        />
                     </form>
+
+                    {/* Sign In Link */}
+                    <div className="text-center pt-2">
+                        <p className="text-gray-400">
+                            Already have an account?{" "}
+                            <Link
+                                to="/auth/signin"
+                                className="text-[#ffae2c] font-semibold hover:text-[#ffda8b] transition-colors"
+                            >
+                                Sign in
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            {/* Right Side - Logo */}
-            <div className="hidden lg:flex flex-1 items-center justify-center bg-transparent">
-                <div className="text-center">
-                    <img src={nasibLogo} alt="Nasiib Logo" className="w-96 mx-auto" />
+            {/* Right Side - Image/Decoration */}
+            <div className="hidden lg:flex flex-1 relative overflow-hidden bg-[#0e1624]">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2940&auto=format&fit=crop')] bg-cover bg-center opacity-40 mix-blend-overlay"></div>
+                <div className="absolute inset-0 bg-gradient-to-bl from-[#ffae2c]/10 to-transparent"></div>
+
+                <div className="relative z-10 flex flex-col items-center justify-center p-12 text-center space-y-6">
+                    <div className="w-24 h-24 bg-[#ffae2c] rounded-2xl -rotate-12 flex items-center justify-center mb-8 shadow-2xl shadow-[#ffae2c]/30">
+                        <div className="w-20 h-20 bg-[#0e1624] rounded-xl flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-[#ffae2c] rotate-12" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <h2 className="text-3xl font-bold text-white max-w-md">
+                        Join the Winning Team
+                    </h2>
+                    <p className="text-gray-400 max-w-sm">
+                        Unlock exclusive rewards, participate in tournaments, and connect with other gamers.
+                    </p>
                 </div>
             </div>
         </div>

@@ -52,11 +52,7 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["auth"],
     }),
 
-    // 04. get user by token
-    getUserByToken: builder.query({
-      query: () => ({ url: `/user/my-profile`, method: "GET" }),
-      providesTags: ["auth"],
-    }),
+
 
     // 05. update user
     updateUser: builder.mutation({

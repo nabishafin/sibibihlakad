@@ -5,11 +5,13 @@ import { store } from "./redux/store";
 import "./index.css";
 import routes from "./routes/routes.jsx";
 import { RouterProvider } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={routes} />
+      <Toaster position="top-right" reverseOrder={false} />
     </Provider>
   </StrictMode>
 );

@@ -3,24 +3,22 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
 
-export const SpinWheel = ({ isSpinning: externalIsSpinning }) => {
+export const SpinWheel = ({ isSpinning: externalIsSpinning, targetIndex = 0, onSpinComplete }) => {
   const [rotation, setRotation] = useState(0)
   const [isSpinning, setIsSpinning] = useState(false)
 
   const segments = [
-    { label: "10x", color: "#B22222", textColor: "#D4AF37", fontSize: 14 }, // Red
-    { label: "5x", color: "#2D5016", textColor: "#D4AF37", fontSize: 14 }, // Dark Green
-    { label: "3x", color: "#A2234E", textColor: "#D4AF37", fontSize: 16 }, // Updated Gold->Brand Color
-
-    { label: "MISS", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14 }, // Navy MISS
-
-    { label: "2x", color: "#4B0082", textColor: "#D4AF37", fontSize: 14 }, // Purple
-    { label: "1x", color: "#2D5016", textColor: "#D4AF37", fontSize: 14 }, // Dark Green
-
-    { label: "MISS", color: "#B22222", textColor: "#D4AF37", fontSize: 14 }, // Red MISS
-
-    { label: "0x", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14 }, // Navy
+    { label: "10x", color: "#B22222", textColor: "#D4AF37", fontSize: 14, value: 10 },
+    { label: "5x", color: "#2D5016", textColor: "#D4AF37", fontSize: 14, value: 5 },
+    { label: "3x", color: "#A2234E", textColor: "#D4AF37", fontSize: 16, value: 3 },
+    { label: "MISS", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14, value: 0 },
+    { label: "2x", color: "#4B0082", textColor: "#D4AF37", fontSize: 14, value: 2 },
+    { label: "1x", color: "#2D5016", textColor: "#D4AF37", fontSize: 14, value: 1 },
+    { label: "MISS", color: "#B22222", textColor: "#D4AF37", fontSize: 14, value: 0 },
+    { label: "0x", color: "#1E3A5F", textColor: "#D4AF37", fontSize: 14, value: 0 },
   ];
+
+  const SEGMENT_ANGLE = 360 / segments.length;
 
   React.useEffect(() => {
     if (externalIsSpinning && !isSpinning) {
@@ -31,12 +29,53 @@ export const SpinWheel = ({ isSpinning: externalIsSpinning }) => {
   const handleSpin = () => {
     if (isSpinning) return
     setIsSpinning(true)
-    const spins = 5 + Math.random() * 3
-    const randomDegree = Math.random() * 360
-    const newRotation = rotation + spins * 360 + randomDegree
+
+    // Calculate rotation to land on targetIndex
+    // Index 0 (10x) is initially at -90deg (Top).
+    // To land on specific index 'i', that segment needs to land at -90deg.
+    // The wheel rotates clockwise by default in 'rotation'.
+    // If w starts at 0. Top is Index 0.
+    // If we rotate +45 (clockwise), Index 7 (Top-Left) moves to Top.
+    // So to bring Index i to Top, we need to rotate by i * 45?
+    // Let's check:
+    // i=1 (5x). To get to Top, we need to rotate wheel by -45 (counter-clockwise)?
+    // No, standard rotation is usually positive.
+    // If we rotate +315 (which is -45), Index 1 comes to top.
+    // If we rotate + (360 - i*45), Index i comes to top.
+
+    // But let's verify visual structure.
+    // The segments are drawn: angle = (360/8)*i - 90.
+    // i=0 -> -90 (Top)
+    // i=1 -> -45 (Top-Right)
+    // i=2 -> 0 (Right)
+    // To bring i=1 to Top (-90), we need to rotate the whole wheel by -45 deg.
+    // So targetRotation = currentRotation + (spins * 360) - (targetIndex * 45).
+    // Let's refine for continuous rotation.
+    // We remove modulo factors stored in 'rotation' state? No, we add to it.
+
+    const spins = 5 + Math.floor(Math.random() * 3)
+    const spinsDegrees = spins * 360;
+
+    // Angle to bring targetIndex to top (assuming it starts at its visual angle)
+    // We want the final rotational position R_final such that:
+    // (VisualAngle_i + R_final) % 360 ~= -90 (Top pointer)
+    // VisualAngle_i = i*45 - 90
+    // i*45 - 90 + R_final = -90
+    // R_final = - i*45 (degrees)
+    // So we need to rotate by - (targetIndex * 45).
+    // Since we only add to rotation, we add (360 - targetIndex*45).
+
+    const targetAngle = (360 - (targetIndex * SEGMENT_ANGLE)) % 360;
+
+    // Random offset within segment (-20 to +20)
+    const offset = Math.random() * 40 - 20;
+
+    const newRotation = rotation + spinsDegrees + targetAngle + offset;
+
     setRotation(newRotation)
     setTimeout(() => {
       setIsSpinning(false)
+      if (onSpinComplete) onSpinComplete();
     }, 4000)
   }
 
@@ -289,56 +328,16 @@ export const SpinWheel = ({ isSpinning: externalIsSpinning }) => {
                   background: "radial-gradient(circle at 65% 35%, #d4af37 0%, #c9941a 50%, #8b6914 100%)",
                   boxShadow: "inset -4px -4px 10px rgba(0,0,0,0.7), inset 4px 4px 10px rgba(255,215,110,0.3)",
                 }}
-              >
-                {/* Inner gold ring */}
-                <div
-                  className="absolute inset-[4px] rounded-full"
-                  style={{
-                    background:
-                      "radial-gradient(circle at 65% 35%, #e8c15f 0%, #d4af37 40%, #c9941a 70%, #8b6914 100%)",
-                    boxShadow: "inset -3px -3px 8px rgba(0,0,0,0.5), inset 3px 3px 8px rgba(255,255,255,0.3)",
-                  }}
-                >
-                  {/* Black center */}
-                  <div
-                    className="absolute inset-[3px] rounded-full bg-[#0a0a0a] flex flex-col items-center justify-center"
-                    style={{ boxShadow: "inset -5px -5px 15px rgba(0,0,0,0.9), inset 2px 2px 8px rgba(0,0,0,0.7)" }}
-                  >
-                    <div
-                      className="text-[#D4AF37] text-4xl mb-1"
-                      style={{
-                        filter:
-                          "drop-shadow(-2px -2px 5px rgba(0,0,0,0.9)) drop-shadow(1px 1px 2px rgba(255,215,110,0.3))",
-                      }}
-                    >
-                      ♠
-                    </div>
-                    <div
-                      className="text-[#D4AF37] text-base font-bold tracking-[0.15em]"
-                      style={{
-                        fontFamily: "Georgia, serif",
-                        textShadow: "-2px -2px 5px rgba(0,0,0,0.9), 1px 1px 3px rgba(255,215,110,0.3)",
-                      }}
-                    >
-                      NASIIB
-                    </div>
-                    <div className="flex gap-1.5 mt-2">
-                      <div
-                        className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"
-                        style={{ boxShadow: "0 0 6px rgba(212,175,55,0.6), inset -1px -1px 2px rgba(0,0,0,0.5)" }}
-                      />
-                      <div
-                        className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"
-                        style={{ boxShadow: "0 0 6px rgba(212,175,55,0.6), inset -1px -1px 2px rgba(0,0,0,0.5)" }}
-                      />
-                      <div
-                        className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"
-                        style={{ boxShadow: "0 0 6px rgba(212,175,55,0.6), inset -1px -1px 2px rgba(0,0,0,0.5)" }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              />
+              {/* Inner gold ring */}
+              <div
+                className="absolute inset-[4px] rounded-full"
+                style={{
+                  background:
+                    "radial-gradient(circle at 65% 35%, #e8c15f 0%, #d4af37 40%, #c9941a 70%, #8b6914 100%)",
+                  boxShadow: "inset -3px -3px 8px rgba(0,0,0,0.5), inset 3px 3px 8px rgba(255,255,255,0.3)",
+                }}
+              />
             </div>
           </motion.div>
         </div>
