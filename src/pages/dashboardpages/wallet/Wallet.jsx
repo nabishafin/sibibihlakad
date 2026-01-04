@@ -118,8 +118,8 @@ const Wallet = () => {
                 <button
                   onClick={handleCopy}
                   className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 whitespace-nowrap ${copied
-                      ? "bg-green-500 text-white"
-                      : "bg-[#ffae2c] text-[#0e1624] hover:bg-[#d6b25e]"
+                    ? "bg-green-500 text-white"
+                    : "bg-[#ffae2c] text-[#0e1624] hover:bg-[#d6b25e]"
                     }`}
                 >
                   {copied ? (
