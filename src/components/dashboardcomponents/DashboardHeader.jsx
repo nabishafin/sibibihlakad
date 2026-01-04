@@ -9,12 +9,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, ChevronDown, Coins, Bitcoin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Search, ChevronDown, Bitcoin } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { MobileSidebar } from "./DashboardSidebar";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/slices/authSlice";
 
 export default function DashboardHeader() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // 1. Clear Redux state
+    dispatch(logout());
+
+    // 2. Clear Local Storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+
+    // 3. Redirect to login
+    navigate("/auth/signin");
+  };
+
   return (
     <header className="bg-[#0E1624] text-white px-2 sm:px-6 lg:px-8 py-2 ">
       <div className="flex items-center justify-between">
@@ -104,7 +121,10 @@ export default function DashboardHeader() {
                 <span>Wallet</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-700" />
-              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer text-red-400">
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="hover:bg-[#2a3645] cursor-pointer text-red-400"
+              >
                 <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>

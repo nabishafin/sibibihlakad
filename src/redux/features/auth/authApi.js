@@ -72,23 +72,16 @@ export const authApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["auth"],
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-        try {
-          const { data } = await queryFulfilled;
+    }),
 
-          // Store reset token if provided
-          const token =
-            data?.resetPasswordToken ||
-            data?.data?.resetPasswordToken ||
-            data?.token;
-          if (token) localStorage.setItem("resetPasswordToken", token);
-
-          // Store email for OTP verification
-          if (arg.email) dispatch(setResetEmail(arg.email));
-        } catch (error) {
-          console.error("Forgot password error:", error);
-        }
-      },
+    // 06.1 recover password
+    recoverPassword: builder.mutation({
+      query: (data) => ({
+        url: "/auth/recover",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
     }),
 
     // 07. verify email/OTP
@@ -144,4 +137,5 @@ export const {
   useGetUserByTokenQuery,
   useUpdateUserMutation,
   useRegisterMutation,
+  useRecoverPasswordMutation,
 } = authApi;

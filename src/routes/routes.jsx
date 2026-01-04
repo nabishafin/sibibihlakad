@@ -36,15 +36,15 @@ const routes = createBrowserRouter([
     element: <RegisterPage />,
   },
   {
-    path: "/auth/forgot-password",
+    path: "/auth/forgotpass",
     element: <ForgotPassword />,
   },
   {
-    path: "/otpverification",
+    path: "/auth/otp",
     element: <OTPVerification />,
   },
   {
-    path: "/resetPassword",
+    path: "/auth/reset-password",
     element: <ResetPassword />,
   },
   {

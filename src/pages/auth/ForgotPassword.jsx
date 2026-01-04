@@ -1,16 +1,36 @@
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import nasibLogo from "../../assets/Nasib.png";
+import AnimatedButton from "@/components/ui/AnimatedButton";
+import { useRecoverPasswordMutation } from "@/redux/features/auth/authApi";
+import toast from "react-hot-toast";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [recoverPassword, { isLoading }] = useRecoverPasswordMutation();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await recoverPassword({ email }).unwrap();
+      if (res.success) {
+        toast.success(res.message || "Recovery email sent!");
+        // Navigate to Reset Password page
+        navigate("/auth/reset-password");
+      }
+    } catch (err) {
+      console.error("Recovery failed:", err);
+      toast.error(err?.data?.message || "Failed to send recovery email");
+    }
+  };
+
   return (
-    <div className="flex h-screen bg-[#1a2332]">
+    <div className="flex min-h-screen bg-[#141b2d]">
       {/* Left Side - Recovery Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-6">
+      <div className="flex-1 flex items-center justify-center p-8 bg-[#141b2d]">
+        <div className="w-full max-w-md space-y-8">
 
           {/* Header */}
           <div className="space-y-2">
@@ -21,48 +41,54 @@ const ForgotPassword = () => {
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-300">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-gray-300">
                 Email Address
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="Email Address"
-                className="bg-[#0e1624] border-gray-700 text-white placeholder:text-gray-500 focus:border-[#ffae2c] h-12"
-                required
-              />
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-[#0B121D] border border-gray-700 rounded-lg py-3 px-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] transition-all"
+                  placeholder="Enter your email"
+                />
+              </div>
             </div>
 
             {/* Send Recovery Email Button */}
-            <Button
-              type="submit"
-              className="w-full bg-[#ffae2c] hover:bg-[#d6b25e] text-[#0e1624] font-semibold h-12 text-base"
-            >
-              Send Recovery Email
-            </Button>
+            <AnimatedButton
+              text={isLoading ? "Sending..." : "Send Recovery Email"}
+              disabled={isLoading}
+              className="w-full py-3 text-base font-bold text-[#0e1624]"
+              fillColor1="#ffae2c"
+              fillColor2="#ff9500"
+            />
 
             {/* Back to Login Link */}
-            <div className="flex items-center justify-center gap-2 pt-2">
-              <ChevronLeft size={16} className="text-gray-400" />
+            <div className="flex items-center justify-center pt-2">
               <Link
-                to="/signin"
-                className="text-sm text-gray-400 hover:text-[#ffae2c] transition-colors"
+                to="/auth/signin"
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-[#ffae2c] transition-colors"
               >
-                Or continue with
+                <ChevronLeft size={16} />
+                Back to Login
               </Link>
             </div>
-          </div>
+          </form>
         </div>
       </div>
 
-      {/* Right Side - Logo */}
-      <div className="hidden lg:flex flex-1 items-center justify-center bg-[#0e1624]">
-        <div className="text-center">
-          <img src={nasibLogo} alt="Nasiib Logo" className="w-96 mx-auto" />
-        </div>
+      {/* Right Side - Logo Panel */}
+      <div className="hidden lg:flex flex-1 items-center justify-center bg-[#0B121D]">
+        <img
+          src={nasibLogo}
+          alt="Nasiib"
+          className="w-80 object-contain drop-shadow-2xl"
+        />
       </div>
     </div>
   );

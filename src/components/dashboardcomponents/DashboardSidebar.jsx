@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import nasib from "../../assets/Nasib.png";
+import { useGetLiveStatsQuery } from "@/redux/features/dashboard/dashboardApi";
 
 // Sidebar Items
 const sidebarItems = [
@@ -52,6 +53,9 @@ const sidebarItems = [
 
 // Live Stats Component
 function LiveStats() {
+  const { data: queryData, isLoading } = useGetLiveStatsQuery();
+  const stats = queryData?.data || {};
+
   return (
     <div className="mt-4 p-4 border border-gray-700 rounded-xl bg-[#1F2937]">
       <div className="flex items-center gap-2 mb-3">
@@ -61,15 +65,21 @@ function LiveStats() {
       <div className="space-y-2 text-xs">
         <div className="flex justify-between text-gray-300">
           <span>Players Online</span>
-          <span className="text-white font-semibold">2,483</span>
+          <span className="text-white font-semibold">
+            {isLoading ? "..." : stats.playersOnline || "0"}
+          </span>
         </div>
         <div className="flex justify-between text-gray-300">
           <span>Games Played</span>
-          <span className="text-white font-semibold">15.2K</span>
+          <span className="text-white font-semibold">
+            {isLoading ? "..." : stats.gamesPlayed || "0"}
+          </span>
         </div>
         <div className="flex justify-between text-gray-300">
           <span>BTC Price</span>
-          <span className="text-[#D6B25E] font-semibold">$94,951.58</span>
+          <span className="text-[#D6B25E] font-semibold">
+            {isLoading ? "..." : stats.btcPrice || "$0.00"}
+          </span>
         </div>
       </div>
     </div>
