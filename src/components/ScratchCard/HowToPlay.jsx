@@ -1,6 +1,10 @@
 import React from "react";
+import { useGetScratchCardStatsQuery } from "@/redux/features/games/gameApi";
 
 export function HowToPlay() {
+  const { data: statsData, isLoading } = useGetScratchCardStatsQuery();
+  const stats = statsData?.data || {};
+
   return (
     <div className="rounded-lg p-4 text-sm bg-[#0B121D]">
       <h3 className="text-lg font-bold mb-3">How to Play</h3>
@@ -46,15 +50,25 @@ export function HowToPlay() {
       <div className="bg-[#1a2536] rounded-md p-3 mt-4 text-xs">
         <div className="flex justify-between mb-1">
           <span>RTP:</span>
-          <span>97.5%</span>
+          <span className="font-bold text-[#ffae2c]">
+            {isLoading ? "..." : stats.rtp || "97.5%"}
+          </span>
         </div>
         <div className="flex justify-between mb-1">
           <span>Min Stake:</span>
-          <span>0.0005 BTC</span>
+          <span className="font-bold text-[#ffae2c]">
+            {isLoading
+              ? "..."
+              : stats.minStake
+                ? `${stats.minStake} BTC`
+                : "0.0005 BTC"}
+          </span>
         </div>
         <div className="flex justify-between">
           <span>Win Multiplier:</span>
-          <span>10x Stake</span>
+          <span className="font-bold text-[#ffae2c]">
+            {isLoading ? "..." : stats.finalState || "10x Stake"}
+          </span>
         </div>
       </div>
     </div>
