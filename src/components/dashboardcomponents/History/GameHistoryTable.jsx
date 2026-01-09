@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { TableLoading } from "@/components/ui/Loading";
 
 export function GameHistoryTable({
   history = [],
@@ -31,8 +32,8 @@ export function GameHistoryTable({
           <button
             onClick={() => onFilterChange("")}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === ""
-                ? "bg-[#DAA520] text-[#0e1624]"
-                : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
+              ? "bg-[#DAA520] text-[#0e1624]"
+              : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
               }`}
           >
             All
@@ -41,8 +42,8 @@ export function GameHistoryTable({
           <button
             onClick={() => onFilterChange("Scratch")}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === "Scratch"
-                ? "bg-[#ffae2c] text-[#0e1624]"
-                : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
+              ? "bg-[#ffae2c] text-[#0e1624]"
+              : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
               }`}
           >
             Scratch
@@ -51,8 +52,8 @@ export function GameHistoryTable({
           <button
             onClick={() => onFilterChange("Spin")}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${filter === "Spin"
-                ? "bg-[#ffae2c] text-[#0e1624]"
-                : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
+              ? "bg-[#ffae2c] text-[#0e1624]"
+              : "bg-[#4f585d] text-white hover:bg-[#5f686d]"
               }`}
           >
             Spin
@@ -76,9 +77,7 @@ export function GameHistoryTable({
 
           <tbody>
             {isLoading ? (
-              <tr>
-                <td colSpan="6" className="text-center py-8 text-gray-400">Loading...</td>
-              </tr>
+              <TableLoading columns={6} text="Loading game history..." />
             ) : (
               filteredData.map((entry) => {
                 const dateObj = new Date(entry.date);
@@ -100,8 +99,8 @@ export function GameHistoryTable({
                     <td className="px-6 py-4">
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-sm border ${entry.result === "Win"
-                            ? "text-[#3fb185] border-[#3fb185]"
-                            : "text-[#f34f4f] border-[#f34f4f]"
+                          ? "text-[#3fb185] border-[#3fb185]"
+                          : "text-[#f34f4f] border-[#f34f4f]"
                           }`}
                       >
                         {entry.result}
@@ -173,8 +172,8 @@ export function GameHistoryTable({
                   onClick={() => onPageChange(pageNum)}
                   disabled={isFetching}
                   className={`border-gray-700 ${currentPage === pageNum
-                      ? "bg-[#DAA520] text-black hover:bg-[#DAA520] hover:text-black"
-                      : "text-gray-300 hover:bg-[#1a2536] hover:text-white"
+                    ? "bg-[#DAA520] text-black hover:bg-[#DAA520] hover:text-black"
+                    : "text-gray-300 hover:bg-[#1a2536] hover:text-white"
                     }`}
                 >
                   {pageNum}

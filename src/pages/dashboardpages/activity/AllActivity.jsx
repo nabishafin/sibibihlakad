@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useGetAllActivityQuery } from "@/redux/features/dashboard/dashboardApi";
 import { Button } from "@/components/ui/button";
+import { TableLoading } from "@/components/ui/Loading";
 
 const AllActivity = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -67,9 +68,7 @@ const AllActivity = () => {
 
                             <tbody>
                                 {isLoading ? (
-                                    <tr>
-                                        <td colSpan="5" className="text-center py-8 text-gray-400">Loading...</td>
-                                    </tr>
+                                    <TableLoading columns={5} text="Loading activities..." />
                                 ) : (
                                     activities.map((activity) => {
                                         const Icon = getIcon(activity);

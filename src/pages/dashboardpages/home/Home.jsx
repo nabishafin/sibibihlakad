@@ -2,6 +2,7 @@ import { ActivityFeed } from "../../../components/homeComponent/ActivityFeed";
 import { BalanceCard } from "../../../components/homeComponent/BalanceCard";
 import { StatsGrid } from "../../../components/homeComponent/StatsGrid";
 import { useGetDashboardDataQuery } from "@/redux/features/dashboard/dashboardApi";
+import { Loading } from "@/components/ui/Loading";
 
 export default function Home() {
   // Hardcoded userId for now as per requirements
@@ -9,14 +10,15 @@ export default function Home() {
   const { data: dashboardData, isLoading, error } = useGetDashboardDataQuery(userId);
 
   if (isLoading) {
-    return <div className="text-white p-4">Loading dashboard...</div>;
+    return <Loading size="large" text="Loading your account..." />;
   }
 
   if (error) {
-    return <div className="text-red-500 p-4">Error loading dashboard data</div>;
+    return <div className="text-red-500 p-4">Error loading your data</div>;
   }
 
   const { balance, userStats, liveActivity } = dashboardData?.data || {};
+
 
   return (
     <main className="">
