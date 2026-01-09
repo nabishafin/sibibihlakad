@@ -7,31 +7,34 @@ import {
   SquareActivity,
 } from "lucide-react";
 
-const stats = [
-  {
-    label: "Games Played",
-    value: "50",
-    icon: Gamepad2,
-    color: "text-black",
-  },
-  {
-    label: "Transactions",
-    value: "$458,920.5",
-    icon: WalletMinimal,
-    color: "text-black",
-  },
-  {
-    label: "Return to Player (RTP)",
-    value: "125%",
-    icon: SquareActivity,
-    color: "text-black",
-  },
-];
+export function StatsGrid({ stats }) {
+  // Stats data from API: { gamesPlayed: 7, transactionsVolume: "$0.00", rtp: "100%" }
+  // We need to map this to our display format.
 
-export function StatsGrid() {
+  const displayStats = [
+    {
+      label: "Games Played",
+      value: stats?.gamesPlayed || "0",
+      icon: Gamepad2,
+      color: "text-black",
+    },
+    {
+      label: "Transactions",
+      value: stats?.transactionsVolume || "$0.00",
+      icon: WalletMinimal,
+      color: "text-black",
+    },
+    {
+      label: "Return to Player (RTP)",
+      value: stats?.rtp || "0%",
+      icon: SquareActivity,
+      color: "text-black",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-2">
-      {stats.map((stat) => {
+      {displayStats.map((stat) => {
         const Icon = stat.icon;
         return (
           <div

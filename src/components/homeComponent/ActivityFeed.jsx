@@ -1,57 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const ActivityFeed = () => {
-  const activities = [
-    {
-      id: 1,
-      title: "Testnet BTC Deposit",
-      time: "02:53 AM",
-      amount: "+0.0025 BTC",
-      isPositive: true,
-      icon: <BitcoinIcon />,
-    },
-    {
-      id: 2,
-      title: "Scratch Card - Won 10x",
-      time: "02:52 AM",
-      amount: "+0.0025 BTC",
-      isPositive: true,
-      icon: <ScratchCardIcon />,
-    },
-    {
-      id: 3,
-      title: "Scratch Card - Stake",
-      time: "02:52 AM",
-      amount: "-0.0025 BTC",
-      isPositive: false,
-      icon: <ScratchCardIcon />,
-    },
-    {
-      id: 4,
-      title: "Scratch Card - Stake",
-      time: "02:52 AM",
-      amount: "-0.0025 BTC",
-      isPositive: false,
-      icon: <ScratchCardIcon />,
-    },
-    {
-      id: 5,
-      title: "Scratch Card - Won 10x",
-      time: "02:52 AM",
-      amount: "+0.0025 BTC",
-      isPositive: true,
-      icon: <ScratchCardIcon />,
-    },
-    {
-      id: 6,
-      title: "Spin Wheel - Won 3x",
-      time: "02:52 AM",
-      amount: "+0.0025 BTC",
-      isPositive: true,
-      icon: <SpinWheelIcon />,
-    },
-  ];
+export const ActivityFeed = ({ activities = [] }) => {
+  // Ensure we have a valid array
+  const feedData = Array.isArray(activities) ? activities : [];
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4 mt-5">
@@ -63,29 +16,40 @@ export const ActivityFeed = () => {
           View all
         </Link>
       </div>
-      <div className="space-y-3">
-        {activities.map((activity) => (
-          <div
-            key={activity.id}
-            className="bg-[#0e1624] rounded-lg p-4 flex items-center justify-between hover:bg-[#1a2235] transition-colors"
-          >
-            <div className="flex items-center">
-              <div className="mr-4 bg-[#141b34] p-2 rounded-lg">
-                {activity.icon}
-              </div>
-              <div>
-                <h3 className="text-white font-medium">{activity.title}</h3>
-                <p className="text-gray-400 text-xs">{activity.time}</p>
-              </div>
-            </div>
+      <div className="space-y-3 h-[400px] overflow-y-auto pr-2">
+        {feedData.map((activity) => {
+          // Helper to determine icon and style based on activity
+          let Icon = BitcoinIcon;
+          if (activity.description.toLowerCase().includes("scratch")) Icon = ScratchCardIcon;
+          else if (activity.description.toLowerCase().includes("spin")) Icon = SpinWheelIcon;
+
+          // Format time if needed. Assuming timestamp comes as ISO string. 
+          // Simple formatter:
+          const time = new Date(activity.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+          return (
             <div
-              className={`font-medium ${activity.isPositive ? "text-[#16a34a]" : "text-[#f34f4f]"
-                }`}
+              key={activity.id}
+              className="bg-[#0e1624] rounded-lg p-4 flex items-center justify-between hover:bg-[#1a2235] transition-colors"
             >
-              {activity.amount}
+              <div className="flex items-center">
+                <div className="mr-4 bg-[#141b34] p-2 rounded-lg">
+                  <Icon />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium">{activity.description}</h3>
+                  <p className="text-gray-400 text-xs">{time}</p>
+                </div>
+              </div>
+              <div
+                className={`font-medium ${activity.isPositive ? "text-[#16a34a]" : "text-[#f34f4f]"
+                  }`}
+              >
+                {activity.amount} {activity.currency}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   );

@@ -4,10 +4,14 @@ export const dashboardApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getLiveStats: builder.query({
             query: () => "/dashboard/live-stats",
-            // Optional: You might want to poll this or invalidate on certain actions, 
-            // but for now simple fetching is fine.
+        }),
+        getDashboardData: builder.query({
+            query: (userId) => `/dashboard?userId=${userId}`,
+        }),
+        getAllActivity: builder.query({
+            query: ({ page = 1, limit = 10 }) => `/activity?page=${page}&limit=${limit}`,
         }),
     }),
 });
 
-export const { useGetLiveStatsQuery } = dashboardApi;
+export const { useGetLiveStatsQuery, useGetDashboardDataQuery, useGetAllActivityQuery } = dashboardApi;

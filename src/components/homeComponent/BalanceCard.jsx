@@ -1,23 +1,13 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useState, useEffect } from "react";
 import btcVaultImg from "../../assets/Lockimg.png";
 import AnimatedButton from "../ui/AnimatedButton";
 
-export function BalanceCard() {
-  const [balance, setBalance] = useState(0);
-  const [usdValue, setUsdValue] = useState(0);
-  const [isRotating, setIsRotating] = useState(false);
-
-  // Simulate balance animation on mount
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setBalance(2.5);
-      setUsdValue(95000);
-      setIsRotating(true);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+export function BalanceCard({ balance = { btc: "0.00", usd: "0.00" } }) {
+  // Parse numeric values for display if needed, but the API returns strings/numbers.
+  // Assuming API returns strings like "0.1895" and "$17993.32".
+  // If we need to format them, we can do it here.
+  const btcDisplay = balance.btc || "0.00";
+  const usdDisplay = balance.usd || "$0.00";
 
   return (
     <Card className="w-full  bg-gradient-to-b from-slate-900 to-slate-800 border-slate-700 p-9">
@@ -29,14 +19,14 @@ export function BalanceCard() {
             <div className="space-y-1">
               <div className="flex items-baseline gap-2">
                 <h2 className="text-5xl font-bold text-white">
-                  {balance.toFixed(2)}
+                  {btcDisplay}
                 </h2>
                 <span className="text-xl text-yellow-500 font-semibold">
                   BTC
                 </span>
               </div>
               <p className="text-sm text-slate-400">
-                ≈ ${usdValue.toLocaleString()}
+                ≈ {usdDisplay}
               </p>
             </div>
           </div>
@@ -70,3 +60,4 @@ export function BalanceCard() {
     </Card>
   );
 }
+
