@@ -11,7 +11,10 @@ export const dashboardApi = baseApi.injectEndpoints({
         getAllActivity: builder.query({
             query: ({ page = 1, limit = 10 }) => `/activity?page=${page}&limit=${limit}`,
         }),
+        getHistory: builder.query({
+            query: ({ filter = "", page = 1, limit = 10 }) => `/history?filter=${filter}&page=${page}&limit=${limit}`,
+        }),
     }),
 });
 
-export const { useGetLiveStatsQuery, useGetDashboardDataQuery, useGetAllActivityQuery } = dashboardApi;
+export const { useGetLiveStatsQuery, useGetDashboardDataQuery, useGetAllActivityQuery, useGetHistoryQuery } = dashboardApi;
