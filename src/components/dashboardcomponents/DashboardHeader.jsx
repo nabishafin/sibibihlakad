@@ -13,12 +13,56 @@ import { Search, ChevronDown, Bitcoin } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { MobileSidebar } from "./DashboardSidebar";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slices/authSlice";
+import { useState } from "react";
+import { ProfileModal } from "./ProfileModal";
+import { AccountSettingsModal } from "./AccountSettingsModal";
+import { useGetMeQuery } from "@/redux/features/user/userApi";
+import { useGetWalletBalanceQuery } from "@/redux/features/wallet/walletApi";
 
 export default function DashboardHeader() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { data: userData } = useGetMeQuery();
+  const { data: walletData } = useGetWalletBalanceQuery(undefined, {
+    pollingInterval: 30000, // Poll every 30 seconds for balance updates
+  });
+
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+
+  // Use API data if available, fallback to Redux state
+  const profileData = userData?.data || user;
+  const username = profileData?.username || "User";
+  const email = profileData?.email || "email@example.com";
+
+  // Flexible balance detection
+  const getBalanceValue = (data) => {
+    if (!data) return 0;
+    if (typeof data === 'object' && data.btc !== undefined) return data.btc;
+    if (typeof data === 'number' || typeof data === 'string') return data;
+    return 0;
+  };
+
+  const balanceSource = walletData?.data?.balance ??
+    walletData?.balance ??
+    profileData?.balance ??
+    profileData?.wallet?.balance ??
+    userData?.balance ??
+    user?.wallet?.balance;
+
+  const balance = getBalanceValue(balanceSource);
+
+  const getInitials = (name) => {
+    const parts = name.split(" ");
+    return parts
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   const handleLogout = () => {
     // 1. Clear Redux state
@@ -49,7 +93,7 @@ export default function DashboardHeader() {
             <div className="bg-yellow-500 rounded-full p-2 rotate-0">
               <Bitcoin />
             </div>
-            <span className="text-md font-semibold">$12,020</span>
+            <span className="text-md font-semibold">₿{Number(balance).toFixed(4)}</span>
           </div>
 
           <AnimatedButton
@@ -83,14 +127,14 @@ export default function DashboardHeader() {
                 <Avatar className="h-9 w-9">
                   <AvatarImage
                     src="/placeholder.svg?height=32&width=32"
-                    alt="User"
+                    alt={username}
                   />
                   <AvatarFallback className="bg-teal-600 text-white text-xs font-semibold">
-                    SC
+                    {getInitials(username)}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium hidden sm:inline">
-                  Shyami Chauhan
+                  {username}
                 </span>
                 <ChevronDown className="h-4 w-4 text-gray-400" />
               </Button>
@@ -103,21 +147,30 @@ export default function DashboardHeader() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    Shyami Chauhan
+                    {username}
                   </p>
                   <p className="text-xs leading-none text-gray-400">
-                    shyami@example.com
+                    {email}
                   </p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-gray-700" />
-              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer">
+              <DropdownMenuItem
+                className="hover:bg-[#2a3645] cursor-pointer"
+                onClick={() => setIsProfileModalOpen(true)}
+              >
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer">
+              <DropdownMenuItem
+                className="hover:bg-[#2a3645] cursor-pointer"
+                onClick={() => setIsSettingsModalOpen(true)}
+              >
                 <span>Settings</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="hover:bg-[#2a3645] cursor-pointer">
+              <DropdownMenuItem
+                className="hover:bg-[#2a3645] cursor-pointer"
+                onClick={() => navigate("/dashboard/wallet")}
+              >
                 <span>Wallet</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-gray-700" />
@@ -131,6 +184,16 @@ export default function DashboardHeader() {
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Modals */}
+      <ProfileModal
+        open={isProfileModalOpen}
+        onOpenChange={setIsProfileModalOpen}
+      />
+      <AccountSettingsModal
+        open={isSettingsModalOpen}
+        onOpenChange={setIsSettingsModalOpen}
+      />
     </header>
   );
 }
