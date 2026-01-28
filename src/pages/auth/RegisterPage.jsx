@@ -8,8 +8,7 @@ import nasibLogo from "../../assets/Nasib.png";
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
-        username: "",
-        email: "",
+        usernameOrEmail: "",
         password: "",
         confirmPassword: "",
         terms: false,
@@ -45,8 +44,7 @@ const RegisterPage = () => {
 
         try {
             const res = await register({
-                username: formData.username,
-                email: formData.email,
+                usernameOrEmail: formData.usernameOrEmail,
                 password: formData.password,
             }).unwrap();
 
@@ -87,35 +85,19 @@ const RegisterPage = () => {
                         )}
 
                         <div className="space-y-4">
-                            {/* Username Input */}
+                            {/* Username or Email Input */}
                             <div className="space-y-1.5">
                                 <label className="text-sm font-medium text-gray-300">
-                                    Username
+                                    Username or Email
                                 </label>
                                 <input
                                     type="text"
-                                    name="username"
+                                    name="usernameOrEmail"
                                     required
-                                    value={formData.username}
+                                    value={formData.usernameOrEmail}
                                     onChange={handleChange}
                                     className="w-full bg-[#0B121D] border border-gray-700 rounded-lg py-3 px-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] transition-all"
-                                    placeholder="Username"
-                                />
-                            </div>
-
-                            {/* Email Input */}
-                            <div className="space-y-1.5">
-                                <label className="text-sm font-medium text-gray-300">
-                                    Email Address
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    required
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full bg-[#0B121D] border border-gray-700 rounded-lg py-3 px-4 text-white placeholder-gray-500 outline-none focus:border-[#ffae2c] transition-all"
-                                    placeholder="name@company.com"
+                                    placeholder="Username or Email"
                                 />
                             </div>
 
